@@ -1,3 +1,5 @@
+// app/(uploaded)/analysis/page.tsx
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -9,6 +11,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 const sections = [
   'summary',
   'rating',
+  'personal_info',
   'job_roles',
   'strengths',
   'improvements',
@@ -36,15 +39,15 @@ export default function AnalysisPage() {
   const currentValue = results[currentKey];
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-6">
-      <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-pulse">
+    <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
+      <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
         {/* AI Analysis Section */}
         <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 md:p-6 rounded-2xl shadow-xl h-[500px]">
           <div className="flex-1 overflow-hidden">
             <h2 className="text-2xl md:text-3xl font-bold capitalize text-center mb-4">
               {currentKey.replace('_', ' ')}
             </h2>
-            <div className="bg-zinc-800 p-4 rounded-xl text-green-200 overflow-y-auto text-base md:text-lg leading-relaxed overflow-x-hidden break-words whitespace-pre-line h-[350px]">
+            <div className="bg-zinc-800 p-4 rounded-xl text-green-200 overflow-y-auto text-base md:text-lg leading-relaxed overflow-x-hidden break-words h-[350px]">
               <MarkdownRenderer content={currentValue || '*No content available.*'} />
             </div>
           </div>
@@ -87,7 +90,7 @@ export default function AnalysisPage() {
           <h3 className="text-lg font-semibold mb-4 text-center">Resume Preview</h3>
           <div className="flex-1 overflow-hidden rounded-lg border border-green-700 bg-zinc-800">
             <iframe
-              src={`${results.previewUrl}#zoom=page-width`}
+              src={`${results.previewUrl}#view=FitH`}
               className="w-full h-full rounded-lg"
               title="Resume Preview"
               style={{ border: 'none' }}

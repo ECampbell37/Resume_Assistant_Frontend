@@ -1,8 +1,26 @@
+// app/upload/page.tsx
+
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { UploadCloud, FileText, AlertTriangle } from 'lucide-react';
+
+// ⏳ Loading screen with bounce + progress bar
+function LoadingScreen() {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-green-300 animate-fadeIn">
+      <FileText className="w-12 h-12 text-green-400 animate-bounce mb-6" />
+      <h2 className="text-xl font-semibold mb-4">Analyzing your resume...</h2>
+      <div className="w-64 h-2 bg-zinc-700 rounded-full overflow-hidden">
+        <div
+          className="bg-green-500 h-full animate-progress45"
+          style={{ animationFillMode: 'forwards' }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -62,8 +80,7 @@ export default function UploadPage() {
     } catch (err) {
       console.error(err);
       setError('Something went wrong during resume analysis.');
-    } finally {
-      setLoading(false);
+      setLoading(false); // allow retry if failed
     }
   };
 
@@ -110,16 +127,9 @@ export default function UploadPage() {
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition flex items-center justify-center gap-2"
+            className="mt-4 w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition font-semibold"
           >
-            {loading ? (
-              <>
-                <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Analyzing...</span>
-              </>
-            ) : (
-              'Analyze Resume'
-            )}
+            Analyze Resume
           </button>
         )}
       </div>
@@ -146,6 +156,8 @@ export default function UploadPage() {
         </div>
       )}
 
+      {/* 👇 Fullscreen overlay loader */}
+      {loading && <LoadingScreen />}
     </div>
   );
 }
