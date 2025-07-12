@@ -1,9 +1,9 @@
-// app/(uploaded)/analysis/page.tsx
-
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ToolsNav from '@/components/ToolsNav';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
@@ -23,15 +23,39 @@ export default function AnalysisPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [results, setResults] = useState<any>(null);
   const router = useRouter();
+  const { data: session } = useSession();
+  const supabase = createClientComponentClient();
 
   useEffect(() => {
-    const stored = localStorage.getItem('resumeResults');
-    if (!stored) {
-      router.push('/upload');
-    } else {
-      setResults(JSON.parse(stored));
-    }
-  }, [router]);
+    const fetchResults = async () => {
+      const userId = session?.user?.id;
+      if (!userId) {
+        router.push('/upload');
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('resume_results')
+        .select('*')
+        .eq('user_id', userId)
+        .order('uploaded_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error || !data) {
+        console.warn('No analysis result found or error:', error);
+        router.push('/upload');
+        return;
+      }
+
+      setResults({
+        ...data.analysis,
+        previewUrl: data.file_url,
+      });
+    };
+
+    fetchResults();
+  }, [router, session, supabase]);
 
   if (!results) return null;
 

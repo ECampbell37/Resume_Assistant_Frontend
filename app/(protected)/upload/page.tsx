@@ -1,22 +1,18 @@
-// app/upload/page.tsx
-
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { UploadCloud, FileText, AlertTriangle } from 'lucide-react';
 
-// ⏳ Loading screen with bounce + progress bar
 function LoadingScreen() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-green-300 animate-fadeIn">
       <FileText className="w-12 h-12 text-green-400 animate-bounce mb-6" />
       <h2 className="text-xl font-semibold mb-4">Analyzing your resume...</h2>
       <div className="w-64 h-2 bg-zinc-700 rounded-full overflow-hidden">
-        <div
-          className="bg-green-500 h-full animate-progress45"
-          style={{ animationFillMode: 'forwards' }}
-        />
+        <div className="bg-green-500 h-full animate-progress45" style={{ animationFillMode: 'forwards' }} />
       </div>
     </div>
   );
@@ -28,7 +24,10 @@ export default function UploadPage() {
   const [showPreview, setShowPreview] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+  const { data: session } = useSession();
+  const supabase = createClientComponentClient();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploaded = e.target.files?.[0] || null;
@@ -50,39 +49,86 @@ export default function UploadPage() {
   };
 
   const handleAnalyze = async () => {
-    if (!file || !previewUrl) return;
+    if (!file) return;
 
     setLoading(true);
     setError('');
 
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
+      const userId = session?.user?.id;
+      if (!userId) throw new Error('User not authenticated');
+
+      // Delete previous resume file (if it exists)
+      const { data: oldResult } = await supabase
+        .from('resume_results')
+        .select('file_url')
+        .eq('user_id', userId)
+        .order('uploaded_at', { ascending: false })
+        .limit(1)
+        .single();
+
+      if (oldResult?.file_url) {
+        const oldPath = oldResult.file_url.split('/resumes/')[1];
+        if (oldPath) {
+          console.log('Deleting old file at:', oldPath);
+          await supabase.storage.from('resumes').remove([oldPath]);
+        }
+      }
+
+      // Upload new resume to Supabase Storage
+      const filePath = `${userId}/${Date.now()}_${file.name}`;
+      console.log('Uploading to Supabase Storage:', filePath);
+
+      const { error: uploadError } = await supabase.storage
+        .from('resumes')
+        .upload(filePath, file);
+      if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
+
+      const { data: fileUrlData } = supabase.storage.from('resumes').getPublicUrl(filePath);
+      const fileUrl = fileUrlData.publicUrl;
+      console.log('File uploaded. Public URL:', fileUrl);
+
+      // Analyze resume via backend
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('user_id', userId);
+
       const res = await fetch('http://localhost:8000/analyze', {
         method: 'POST',
         body: formData,
       });
 
       if (!res.ok) {
-        throw new Error('Resume analysis failed.');
+        const errorText = await res.text();
+        throw new Error(`Backend error: ${errorText}`);
       }
 
-      const data = await res.json();
+      const analysis = await res.json();
+      console.log('Analysis complete:', analysis);
 
-      const resultsWithPreview = {
-        ...data,
-        previewUrl,
-      };
+      // Upsert new analysis result into DB
+      const { error: dbError } = await supabase
+        .from('resume_results')
+        .upsert(
+          {
+            user_id: userId,
+            file_url: fileUrl,
+            file_name: file.name,
+            analysis,
+          },
+          { onConflict: 'user_id' }
+        );
+      if (dbError) throw new Error(`Insert failed: ${dbError.message}`);
 
-      localStorage.setItem('resumeResults', JSON.stringify(resultsWithPreview));
+      // Redirect to analysis screen
       router.push('/analysis');
     } catch (err) {
-      console.error(err);
+      console.error('Error during analysis:', err);
       setError('Something went wrong during resume analysis.');
-      setLoading(false); // allow retry if failed
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-black text-green-300 px-6 py-10">
@@ -156,7 +202,6 @@ export default function UploadPage() {
         </div>
       )}
 
-      {/* 👇 Fullscreen overlay loader */}
       {loading && <LoadingScreen />}
     </div>
   );

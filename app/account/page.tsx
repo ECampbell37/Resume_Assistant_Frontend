@@ -3,23 +3,28 @@
 import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { UserCircle, GaugeCircle, LogOut, Undo2, Lock, LogIn } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import {
+  UserCircle, GaugeCircle, LogOut, Undo2, Lock, LogIn,
+  FileText, Search, UploadCloud, EyeOff, Eye,
+} from 'lucide-react';
 
 const DAILY_LIMIT = 100;
 
 export default function AccountPage() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [joinedAt, setJoinedAt] = useState<string | null>(null);
   const [usage, setUsage] = useState<number>(0);
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+  const [showPreview, setShowPreview] = useState(false);
 
-  // Save user ID globally
   useEffect(() => {
     if (session?.user?.id) {
       sessionStorage.setItem('user_id', session.user.id);
     }
   }, [session]);
 
-  // Fetch join date from Supabase
   useEffect(() => {
     const fetchJoinDate = async () => {
       if (!session?.user?.id) return;
@@ -34,12 +39,9 @@ export default function AccountPage() {
       if (data?.joinedAt) setJoinedAt(data.joinedAt);
     };
 
-    if (status === 'authenticated') {
-      fetchJoinDate();
-    }
+    if (status === 'authenticated') fetchJoinDate();
   }, [session, status]);
 
-  // Fetch today's API usage
   useEffect(() => {
     const fetchUsage = async () => {
       if (!session?.user?.id) return;
@@ -54,51 +56,58 @@ export default function AccountPage() {
       setUsage(data?.usage ?? 0);
     };
 
-    if (status === 'authenticated') {
-      fetchUsage();
-    }
+    if (status === 'authenticated') fetchUsage();
   }, [session, status]);
 
+  useEffect(() => {
+    const fetchResume = async () => {
+      const res = await fetch('/api/resume/latest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: session?.user?.id }),
+      });
+
+      const data = await res.json();
+      if (data?.file_url) setResumeUrl(data.file_url);
+    };
+
+    if (session?.user?.id) fetchResume();
+  }, [session]);
 
   if (!session) {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-black text-green-300 animate-fadeInUp">
+      <div className="min-h-screen flex items-center justify-center bg-black text-green-300 animate-fadeInUp">
         <div className="text-center bg-zinc-900 p-10 rounded-2xl shadow-xl w-full max-w-md space-y-8">
-            <div className="flex justify-center">
+          <div className="flex justify-center">
             <Lock className="w-14 h-14 text-green-400 animate-pulse" />
-            </div>
-
-            <h2 className="text-2xl font-bold">You&apos;re not signed in</h2>
-            <p className="text-zinc-300 text-sm">
-            You must be signed in to access this feature. 
-            </p>
-
-            <div className="flex justify-center">
+          </div>
+          <h2 className="text-2xl font-bold">You&apos;re not signed in</h2>
+          <p className="text-zinc-300 text-sm">You must be signed in to access this feature.</p>
+          <div className="flex justify-center">
             <Link href="/signin">
-                <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full transition shadow-lg hover:shadow-green-500/30">
+              <button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-full transition shadow-lg hover:shadow-green-500/30">
                 <LogIn size={18} />
                 Sign In
-                </button>
+              </button>
             </Link>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     );
-    }
+  }
 
   const usagePercent = Math.min((usage / DAILY_LIMIT) * 100, 100);
 
   return (
-    <div className="min-h-screen bg-black text-green-300 px-6 py-16 flex justify-center items-center">
-      <div className="bg-zinc-900 p-8 rounded-2xl shadow-xl w-full max-w-xl text-center space-y-8 animate-fadeIn">
+    <div className="min-h-screen bg-black text-green-300 px-6 py-16 flex justify-center items-start">
+      <div className="bg-zinc-900 p-8 rounded-2xl shadow-xl w-full max-w-2xl text-center space-y-8 animate-fadeIn">
         <div className="flex justify-center">
           <UserCircle className="text-green-400 w-16 h-16 animate-bounce" />
         </div>
 
         <h1 className="text-3xl font-bold">
-            Welcome, {session.user?.email?.split('@')[0] || 'User'}!
+          Welcome, {session.user?.email?.split('@')[0] || 'User'}!
         </h1>
-
 
         {joinedAt && (
           <p className="text-green-400 animate-fadeInUp">
@@ -126,7 +135,52 @@ export default function AccountPage() {
           <p className="text-xs text-green-400">{usage} / {DAILY_LIMIT} messages today</p>
         </div>
 
-        {/* Buttons */}
+        {/* Action Buttons */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 text-sm">
+          <Link href="/analysis">
+            <button className="bg-zinc-800 border border-green-500 px-4 py-2 rounded-xl hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 shadow-md">
+              <Search size={16} />
+              See Analysis
+            </button>
+          </Link>
+          <Link href="/upload">
+            <button className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-xl text-white font-semibold flex items-center justify-center gap-2 shadow-md">
+              <UploadCloud size={16} />
+              New Analysis
+            </button>
+          </Link>
+          <button
+            onClick={() => setShowPreview(!showPreview)}
+            disabled={!resumeUrl}
+            className={`px-4 py-2 rounded-xl transition flex items-center justify-center gap-2 shadow-md font-semibold ${
+              resumeUrl
+                ? 'bg-zinc-800 border border-green-500 hover:bg-green-600 hover:text-white'
+                : 'bg-zinc-700 text-zinc-400 cursor-not-allowed'
+            }`}
+          >
+            {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
+            {showPreview ? 'Hide Preview' : 'Show Resume'}
+          </button>
+        </div>
+
+        {/* Resume Preview */}
+        {showPreview && resumeUrl && (
+          <div className="mt-10">
+            <h2 className="text-lg font-bold mb-2 flex items-center justify-center gap-2">
+              <FileText size={18} />
+              Resume Preview
+            </h2>
+            <div className="bg-zinc-800 rounded-lg overflow-hidden border border-green-600 shadow-md">
+              <iframe
+                src={`${resumeUrl}#view=FitH`}
+                title="Resume Preview"
+                className="w-full h-[500px] rounded"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Footer Nav */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
           <Link href="/">
             <button className="bg-zinc-800 border border-green-500 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition flex items-center gap-2">
