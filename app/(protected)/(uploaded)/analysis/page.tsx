@@ -17,11 +17,26 @@ const sections = [
   'improvements',
   'career_tips',
   'spelling',
-];
+] as const;
+
+type SectionKey = typeof sections[number];
+
+interface AnalysisResults {
+  previewUrl: string;
+  summary: string;
+  rating: string;
+  personal_info: string;
+  job_roles: string;
+  strengths: string;
+  improvements: string;
+  career_tips: string;
+  spelling: string;
+}
+
 
 export default function AnalysisPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [results, setResults] = useState<any>(null);
+  const [results, setResults] = useState<AnalysisResults | null>(null);
   const router = useRouter();
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
@@ -59,7 +74,7 @@ export default function AnalysisPage() {
 
   if (!results) return null;
 
-  const currentKey = sections[currentIndex];
+  const currentKey: SectionKey = sections[currentIndex];
   const currentValue = results[currentKey];
 
   return (

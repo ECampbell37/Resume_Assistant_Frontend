@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   UserCircle, GaugeCircle, LogOut, Undo2, Lock, LogIn,
   FileText, Search, UploadCloud, EyeOff, Eye,
@@ -13,7 +12,6 @@ const DAILY_LIMIT = 100;
 
 export default function AccountPage() {
   const { data: session, status } = useSession();
-  const router = useRouter();
   const [joinedAt, setJoinedAt] = useState<string | null>(null);
   const [usage, setUsage] = useState<number>(0);
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);

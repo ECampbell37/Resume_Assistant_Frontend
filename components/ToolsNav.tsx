@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Brain, Wand2, Briefcase, MessageSquareText } from 'lucide-react';
+import { Brain, Briefcase, MessageSquareText } from 'lucide-react';
 
 const tools = [
   { label: 'Analysis', href: '/analysis', icon: <Brain size={20} /> },

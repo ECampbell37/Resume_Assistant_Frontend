@@ -48,7 +48,7 @@ const handler = NextAuth({
 
       // Handle OAuth: look up/create user in Supabase if necessary
       if (account?.provider === 'google' && token?.email) {
-        const { data, error } = await supabaseServer
+        const { data } = await supabaseServer
           .from('users')
           .select('id')
           .eq('email', token.email)

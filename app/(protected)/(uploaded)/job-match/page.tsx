@@ -8,6 +8,15 @@ import ToolsNav from '@/components/ToolsNav';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import { FileText } from 'lucide-react';
 
+// Define the structure of the job match result returned by your API
+interface JobMatchResult {
+  match_percentage: number;
+  fit_category: string;
+  matched_skills: string[];
+  missing_skills: string[];
+  recommendation: string;
+}
+
 export default function JobMatchPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [jobDescription, setJobDescription] = useState('');
@@ -47,18 +56,15 @@ export default function JobMatchPage() {
   }, [router, session, supabase]);
 
   const handleJobMatch = async () => {
-    if (!jobDescription.trim() || !session?.user?.id) return;
+    const userId = session?.user?.id;
+    if (!jobDescription.trim() || !userId || !previewUrl) return;
 
     setLoading(true);
     setMatchResult('');
 
     try {
-      // Step 1: Reload resume into memory
-      const userId = session.user.id;
-      const fileUrl = previewUrl;
-      if (!fileUrl) throw new Error('No resume URL found.');
-
-      const resBlob = await fetch(fileUrl).then((r) => r.blob());
+      // Reload resume into memory
+      const resBlob = await fetch(previewUrl).then((r) => r.blob());
       const formDataLoad = new FormData();
       formDataLoad.append('user_id', userId);
       formDataLoad.append('file', new File([resBlob], 'resume.pdf', { type: 'application/pdf' }));
@@ -68,7 +74,7 @@ export default function JobMatchPage() {
         body: formDataLoad,
       });
 
-      // Step 2: Call job match
+      // Call job match
       const formDataMatch = new FormData();
       formDataMatch.append('user_id', userId);
       formDataMatch.append('job_description', jobDescription);
@@ -79,30 +85,24 @@ export default function JobMatchPage() {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      const result = await res.json();
+      const result: JobMatchResult = await res.json();
 
       const markdown = `
 ## 🎯 Match Score: **${result.match_percentage}%**
-  **Fit:** _${result.fit_category}_
-
+**Fit:** _${result.fit_category}_
 
 ## ✅ Matched Skills
-
-${result.matched_skills.map((s: string) => `- ${s}`).join('\n')}
-
+${result.matched_skills.map((s) => `- ${s}`).join('\n')}
 
 ## ❌ Missing Skills
-
-${result.missing_skills.map((s: string) => `- ${s}`).join('\n')}
-
+${result.missing_skills.map((s) => `- ${s}`).join('\n')}
 
 ## 💡 Recommendation
-
 ${result.recommendation}
 `.trim();
 
       setMatchResult(markdown);
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       setMatchResult('❌ Something went wrong. Please try again.');
     }

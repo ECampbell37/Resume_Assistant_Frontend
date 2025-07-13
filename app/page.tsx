@@ -1,6 +1,6 @@
 'use client';
 
-import { UploadCloud, Sparkles, CheckCircle, FileText, GaugeCircle, UserCircle2 } from 'lucide-react';
+import { UploadCloud, Sparkles, FileText, GaugeCircle, UserCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function HomePage() {

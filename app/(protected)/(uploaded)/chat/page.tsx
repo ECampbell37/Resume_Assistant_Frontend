@@ -24,10 +24,9 @@ export default function ChatPage() {
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
 
-  const userId = session?.user?.id;
-
   useEffect(() => {
     const fetchResume = async () => {
+      const userId = session?.user?.id;
       if (!userId) return;
 
       const { data, error } = await supabase
@@ -44,14 +43,14 @@ export default function ChatPage() {
       }
 
       setPreviewUrl(data.file_url);
-      await uploadResumeForChatbot(data.file_url);
+      await uploadResumeForChatbot(data.file_url, userId);
     };
 
-    const uploadResumeForChatbot = async (fileUrl: string) => {
+    const uploadResumeForChatbot = async (fileUrl: string, userId: string) => {
       const res = await fetch(fileUrl);
       const blob = await res.blob();
       const formData = new FormData();
-      formData.append('user_id', userId!);
+      formData.append('user_id', userId);
       formData.append('file', new File([blob], 'resume.pdf', { type: 'application/pdf' }));
 
       await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/chatbot/load`, {
@@ -61,13 +60,14 @@ export default function ChatPage() {
     };
 
     fetchResume();
-  }, [userId]);
+  }, [session, supabase, router]);
 
 
   const sendMessage = async () => {
+    const userId = session?.user?.id;
     if (!input.trim() || !userId) return;
-    setLoading(true);
 
+    setLoading(true);
     const userMessage: ChatMessage = { role: 'user', content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
@@ -82,16 +82,24 @@ export default function ChatPage() {
         body: formData,
       });
 
+      if (!res.ok) {
+        throw new Error('Failed to fetch chatbot response');
+      }
+
       const data = await res.json();
       const assistantMessage: ChatMessage = { role: 'assistant', content: data.response };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (err) {
       console.error('Chatbot error:', err);
-      setMessages((prev) => [...prev, { role: 'assistant', content: '❌ Something went wrong. Please try again.' }]);
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: '❌ Something went wrong. Please try again.' },
+      ]);
     }
 
     setLoading(false);
   };
+
 
   return (
   <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
