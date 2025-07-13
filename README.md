@@ -82,6 +82,13 @@ components/
 
 ---
 
+## 🔗 Related Repositories
+
+- [Frontend Repository](https://github.com/ECampbell37/Resume_Assistant_Frontend) – This repo
+- [Backend Repository](https://github.com/ECampbell37/Resume_Assistant_Backend) – FastAPI service running on AWS ECS, managing AI-powered backend
+
+---
+
 ## 👤 Author
 
 Elijah Campbell-Ihim  
