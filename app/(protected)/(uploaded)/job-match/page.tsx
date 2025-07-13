@@ -63,7 +63,7 @@ export default function JobMatchPage() {
       formDataLoad.append('user_id', userId);
       formDataLoad.append('file', new File([resBlob], 'resume.pdf', { type: 'application/pdf' }));
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chatbot/load`, {
+      await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/chatbot/load`, {
         method: 'POST',
         body: formDataLoad,
       });
@@ -73,7 +73,7 @@ export default function JobMatchPage() {
       formDataMatch.append('user_id', userId);
       formDataMatch.append('job_description', jobDescription);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobmatch`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/jobmatch`, {
         method: 'POST',
         body: formDataMatch,
       });

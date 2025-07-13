@@ -93,7 +93,7 @@ export default function UploadPage() {
       formData.append('file', file);
       formData.append('user_id', userId);
 
-      const res = await fetch('http://localhost:8000/analyze', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/analyze`, {
         method: 'POST',
         body: formData,
       });

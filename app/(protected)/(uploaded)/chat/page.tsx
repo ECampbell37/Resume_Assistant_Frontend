@@ -54,7 +54,7 @@ export default function ChatPage() {
       formData.append('user_id', userId!);
       formData.append('file', new File([blob], 'resume.pdf', { type: 'application/pdf' }));
 
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chatbot/load`, {
+      await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/chatbot/load`, {
         method: 'POST',
         body: formData,
       });
@@ -77,7 +77,7 @@ export default function ChatPage() {
       formData.append('user_id', userId);
       formData.append('message', input);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chatbot/respond`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/chatbot/respond`, {
         method: 'POST',
         body: formData,
       });
