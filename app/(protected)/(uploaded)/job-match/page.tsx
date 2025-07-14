@@ -119,7 +119,7 @@ ${result.recommendation}
         Job Match 🔍
       </h1>
       <p className="text-green-400 text-base md:text-lg font-medium leading-relaxed">
-        Paste a job description below to see how well your resume fits. You'll get a match score, skill breakdown, and personalized recommendations.
+        Paste a job description below to see how well your resume fits. You&apos;ll get a match score, skill breakdown, and personalized recommendations.
       </p>
     </div>
 
