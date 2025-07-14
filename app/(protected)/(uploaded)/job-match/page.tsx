@@ -113,6 +113,16 @@ ${result.recommendation}
 
   return (
   <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
+    {/* Welcome Header */}
+    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-4">
+      <h1 className="text-3xl md:text-4xl font-bold text-green-300">
+        Job Match 🔍
+      </h1>
+      <p className="text-green-400 text-base md:text-lg font-medium leading-relaxed">
+        Paste a job description below to see how well your resume fits. You'll get a match score, skill breakdown, and personalized recommendations.
+      </p>
+    </div>
+
     <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
       {/* Job Match Section */}
       <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 md:p-6 rounded-2xl shadow-xl h-[500px] relative">

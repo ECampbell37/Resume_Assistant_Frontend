@@ -21,7 +21,7 @@ export default function HomePage() {
         </p>
 
         <Link href="/upload">
-          <button className="mt-4 inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-lg hover:bg-green-700 transition-all text-lg font-medium">
+          <button className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 text-white font-semibold py-3 px-8 rounded-full shadow-md text-xl hover:shadow-lg hover:scale-105 transition-transform duration-300">
             <UploadCloud className="w-5 h-5" />
             Upload Your Resume
           </button>
@@ -68,7 +68,7 @@ export default function HomePage() {
             <FileText className="w-10 h-10 text-green-500" />
             <h3 className="text-lg font-semibold">4. Explore Results</h3>
             <p className="text-sm text-zinc-400">
-              View your resume summary, job matches, grammar suggestions, and more.
+              View your resume analysis, job matches, personalized chatbot, and more.
             </p>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default function HomePage() {
       {/* Footer CTA */}
       <section className="text-center animate-fadeIn">
         <Link href="/signup">
-          <button className="inline-flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-xl shadow-md hover:bg-green-700 transition text-lg font-medium">
+          <button className="inline-flex items-center gap-2 text-lg bg-transparent text-emerald-400 font-semibold py-3 px-8 rounded-full hover:bg-gradient-to-r hover:from-green-500 hover:via-emerald-600 hover:to-lime-500 hover:text-white hover:scale-105 transition-all duration-300 shadow-md">
             <Sparkles className="w-5 h-5" />
             Sign Up Now!
           </button>
