@@ -95,6 +95,10 @@ export default function AccountPage() {
   }
 
   const usagePercent = Math.min((usage / DAILY_LIMIT) * 100, 100);
+  let usageColor = 'bg-green-500';
+  if (usagePercent > 90) usageColor = 'bg-red-500';
+  else if (usagePercent > 75) usageColor = 'bg-yellow-500';
+
 
   return (
   <div className="min-h-screen bg-black text-green-300 px-4 sm:px-6 py-16 flex justify-center items-start">
@@ -126,7 +130,7 @@ export default function AccountPage() {
         </div>
         <div className="relative h-4 bg-zinc-800 rounded-full overflow-hidden">
           <div
-            className="absolute top-0 left-0 h-full bg-green-500 transition-all duration-300 ease-in-out"
+            className={`absolute top-0 left-0 h-full ${usageColor} transition-all duration-300 ease-in-out`}
             style={{ width: `${usagePercent}%` }}
           />
         </div>
@@ -135,11 +139,17 @@ export default function AccountPage() {
 
       {/* Action Buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 w-full">
+        <Link href="/upload" className="w-full">
+          <button className="w-full bg-zinc-800 hover:bg-green-600 border border-green-500 px-4 py-3 rounded-xl hover:text-white font-semibold flex items-center justify-center gap-2 shadow-md text-sm">
+            <UploadCloud size={16} />
+            New Analysis
+          </button>
+        </Link>
         {resumeUrl ? (
           <Link href="/analysis" className="w-full">
-            <button className="w-full bg-zinc-800 border border-green-500 px-4 py-3 rounded-xl hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 shadow-md text-sm font-medium">
+            <button className="w-full bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 hover:bg-gradient-to-r hover:from-green-600 hover:via-emerald-700 hover:to-teal-600 border border-zinc-800 px-4 py-3 rounded-xl text-white transition flex items-center justify-center gap-2 shadow-lg text-sm font-semibold">
               <Search size={16} />
-              See Analysis
+              View Analysis
             </button>
           </Link>
         ) : (
@@ -148,16 +158,11 @@ export default function AccountPage() {
             className="w-full bg-zinc-700 text-zinc-400 cursor-not-allowed px-4 py-3 rounded-xl flex items-center justify-center gap-2 shadow-md text-sm font-medium"
           >
             <Search size={16} />
-            See Analysis
+            View Analysis
           </button>
         )}
 
-        <Link href="/upload" className="w-full">
-          <button className="w-full bg-green-600 hover:bg-green-700 px-4 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 shadow-md text-sm">
-            <UploadCloud size={16} />
-            New Analysis
-          </button>
-        </Link>
+        
 
         <button
           onClick={() => setShowPreview(!showPreview)}

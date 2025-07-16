@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { checkApiAllowance } from '@/lib/checkApiAllowance';
 import { UploadCloud, FileText, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 
 function LoadingScreen() {
@@ -58,6 +59,12 @@ export default function UploadPage() {
       const userId = session?.user?.id;
       if (!userId) throw new Error('User not authenticated');
 
+      // ✅ API usage check (cost = 10)
+      const allowed = await checkApiAllowance(userId, 10);
+      if (!allowed) {
+        throw new Error('Daily usage limit reached');
+      }
+
       // Delete previous resume file (if it exists)
       const { data: oldResult } = await supabase
         .from('resume_results')
@@ -101,18 +108,17 @@ export default function UploadPage() {
       if (!res.ok) {
         let message = 'Unknown error';
         try {
-          const errorData = await res.json(); // <-- try to parse error response
+          const errorData = await res.json();
           message = errorData.detail || JSON.stringify(errorData);
         } catch {
-          message = await res.text(); // fallback for non-JSON responses
+          message = await res.text();
         }
-        throw new Error(message); // throw with actual message
+        throw new Error(message);
       }
 
       const analysis = await res.json();
       console.log('Analysis complete:', analysis);
 
-      // Upsert new analysis result into DB
       const { error: dbError } = await supabase
         .from('resume_results')
         .upsert(
@@ -126,7 +132,6 @@ export default function UploadPage() {
         );
       if (dbError) throw new Error(`Insert failed: ${dbError.message}`);
 
-      // Redirect to analysis screen
       router.push('/analysis');
     } catch (err) {
       console.error('Error during analysis:', err);
@@ -134,7 +139,6 @@ export default function UploadPage() {
       let friendlyMessage = 'Something went wrong. Please try again.';
 
       if (err instanceof Error) {
-        // Check for expected patterns
         if (err.message.includes('User not authenticated')) {
           friendlyMessage = 'You must be signed in to upload a resume.';
         } else if (err.message.includes('No resume')) {
@@ -153,6 +157,8 @@ export default function UploadPage() {
           friendlyMessage = 'Your file is too large. Max allowed size is 2MB.';
         } else if (err.message.includes('Analysis failed')) {
           friendlyMessage = 'Something went wrong while analyzing your resume. Please try again.';
+        } else if (err.message.includes('Daily usage limit')) {
+          friendlyMessage = '❌ You’ve hit your daily usage limit. Try again tomorrow.';
         }
       }
 

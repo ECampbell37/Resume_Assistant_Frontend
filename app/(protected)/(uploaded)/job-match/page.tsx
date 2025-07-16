@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ToolsNav from '@/components/ToolsNav';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import { checkApiAllowance } from '@/lib/checkApiAllowance';
 import { FileText } from 'lucide-react';
 
 // Define the structure of the job match result returned by your API
@@ -58,6 +59,13 @@ export default function JobMatchPage() {
   const handleJobMatch = async () => {
     const userId = session?.user?.id;
     if (!jobDescription.trim() || !userId || !previewUrl) return;
+
+    // ✅ Check usage allowance
+    const allowed = await checkApiAllowance(userId, 1);
+    if (!allowed) {
+      setMatchResult('❌ You’ve hit your daily usage limit. Please try again tomorrow.');
+      return;
+    }
 
     setLoading(true);
     setMatchResult('');
