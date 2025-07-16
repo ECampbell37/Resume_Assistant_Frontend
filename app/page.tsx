@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-black text-green-300 px-6 py-20 space-y-24 mt-2">
+    <main className="min-h-screen bg-black text-green-300 px-6 py-20 space-y-24">
       {/* Hero Section */}
       <section className="text-center max-w-2xl mx-auto animate-fadeInUp space-y-6">
         <div className="flex justify-center">
@@ -21,7 +21,7 @@ export default function HomePage() {
         </p>
 
         <Link href="/upload">
-          <button className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 text-white font-semibold py-3 px-8 rounded-full shadow-md text-xl hover:shadow-lg hover:scale-105 transition-transform duration-300">
+          <button className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 text-white font-semibold py-3 px-8 rounded-full shadow-lg text-xl hover:scale-105 transition-transform duration-300">
             <UploadCloud className="w-5 h-5" />
             Upload Your Resume
           </button>
@@ -32,49 +32,48 @@ export default function HomePage() {
         </p>
       </section>
 
-      {/* About Section */}
-      <section className="max-w-4xl mx-auto space-y-12 animate-fadeIn">
-        <h2 className="text-3xl font-bold text-center mb-4 text-green-400">How It Works</h2>
-        <div className="grid md:grid-cols-4 gap-8 text-center">
-          {/* Step 1 */}
-          <div className="flex flex-col items-center space-y-3">
-            <UserCircle2 className="w-10 h-10 text-green-500" />
-            <h3 className="text-lg font-semibold">1. Sign In</h3>
-            <p className="text-sm text-zinc-400">
-              Create an account or sign in to get started. Your data is safe and private.
-            </p>
-          </div>
-
-          {/* Step 2 */}
-          <div className="flex flex-col items-center space-y-3">
-            <UploadCloud className="w-10 h-10 text-green-500" />
-            <h3 className="text-lg font-semibold">2. Upload Resume</h3>
-            <p className="text-sm text-zinc-400">
-              Upload a PDF version of your resume. We’ll handle the rest.
-            </p>
-          </div>
-
-          {/* Step 3 */}
-          <div className="flex flex-col items-center space-y-3">
-            <GaugeCircle className="w-10 h-10 text-green-500" />
-            <h3 className="text-lg font-semibold">3. Get Your Score</h3>
-            <p className="text-sm text-zinc-400">
-              Instantly receive a score, strengths, and improvement tips based on our AI rubric.
-            </p>
-          </div>
-
-          {/* Step 4 */}
-          <div className="flex flex-col items-center space-y-3">
-            <FileText className="w-10 h-10 text-green-500" />
-            <h3 className="text-lg font-semibold">4. Explore Results</h3>
-            <p className="text-sm text-zinc-400">
-              View your resume analysis, job matches, personalized chatbot, and more.
-            </p>
-          </div>
+      {/* How It Works */}
+      <section className="max-w-6xl mx-auto px-4 animate-fadeIn">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-green-400">
+          How It Works
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Step Card */}
+          {[
+            {
+              icon: <UserCircle2 className="w-10 h-10 text-green-400" />,
+              title: '1. Sign In',
+              text: 'Create an account or sign in to get started. All you need is an email address.',
+            },
+            {
+              icon: <UploadCloud className="w-10 h-10 text-green-400" />,
+              title: '2. Upload Resume',
+              text: 'Upload a PDF version of your resume — we’ll take care of the rest.',
+            },
+            {
+              icon: <GaugeCircle className="w-10 h-10 text-green-400" />,
+              title: '3. Get Your Analysis',
+              text: 'Get instant feedback based on an all-inclusive AI-powered resume analysis.',
+            },
+            {
+              icon: <FileText className="w-10 h-10 text-green-400" />,
+              title: '4. Explore Results',
+              text: 'Discover career tips, job suggestions, and a personalized resume chatbot tailored just for you.',
+            },
+          ].map((step, i) => (
+            <div
+              key={i}
+              className="flex flex-col items-center text-center bg-black hover:bg-zinc-900 rounded-2xl p-6 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200 space-y-4"
+            >
+              {step.icon}
+              <h3 className="text-lg font-semibold">{step.title}</h3>
+              <p className="text-sm text-zinc-400">{step.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Footer CTA */}
+      {/* Sign Up CTA */}
       <section className="text-center animate-fadeIn">
         <Link href="/signup">
           <button className="inline-flex items-center gap-2 text-lg bg-transparent text-emerald-400 font-semibold py-3 px-8 rounded-full hover:bg-gradient-to-r hover:from-green-500 hover:via-emerald-600 hover:to-lime-500 hover:text-white hover:scale-105 transition-all duration-300 shadow-md">
@@ -83,6 +82,20 @@ export default function HomePage() {
           </button>
         </Link>
       </section>
+
+      {/* Footer Note */}
+      <footer className="text-center text-sm text-zinc-500 pt-10 animate-fadeIn">
+        Created by{' '}
+        <a
+          href="https://www.elijahcampbellihimportfolio.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-bold text-zinc-300 hover:text-emerald-400 underline"
+        >
+          Elijah Campbell-Ihim
+        </a>{' '}
+        | Resume Assistant © 2025
+      </footer>
     </main>
   );
 }
