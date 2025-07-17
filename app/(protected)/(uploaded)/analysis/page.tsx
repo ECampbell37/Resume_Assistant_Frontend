@@ -10,12 +10,12 @@ import MarkdownRenderer from '@/components/MarkdownRenderer';
 
 const sections = [
   'summary',
-  'rating',
   'personal_info',
-  'job_roles',
   'strengths',
-  'improvements',
+  'job_roles',
   'career_tips',
+  'rating',
+  'improvements',
   'spelling',
 ] as const;
 
