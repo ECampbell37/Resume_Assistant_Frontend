@@ -90,17 +90,17 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 ### 💬 Chat
 
 <div align="center">
-  <img src="./assets/chat.png" alt="Chat Screenshot" width="800"/>
+  <img src="./assets/chatbot.png" alt="Chat Screenshot" width="800"/>
   <p><em>Chat Interface</em></p>
 </div>
 
 <div align="center">
-  <img src="./assets/chat2.png" alt="Chat Screenshot" width="800"/>
+  <img src="./assets/chatbot2.png" alt="Chat Screenshot" width="800"/>
   <p><em>Send Message</em></p>
 </div>
 
 <div align="center">
-  <img src="./assets/chat3.png" alt="Chat Screenshot" width="800"/>
+  <img src="./assets/chatbot3.png" alt="Chat Screenshot" width="800"/>
   <p><em>Personalized Response</em></p>
 </div>
 
