@@ -18,6 +18,97 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 
 ---
 
+
+## 🖼️ Screenshots
+
+### 🏠 Home & Accounts
+
+<div align="center">
+  <img src="./assets/home.png" alt="Home Page" width="800"/>
+  <p><em>Homepage</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/signin.png" alt="Sign In Page" width="800"/>
+  <p><em>Sign in</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/account.png" alt="Account Page" width="800"/>
+  <p><em>Account</em></p>
+</div>
+
+---
+
+### 📝 Upload
+
+<div align="center">
+  <img src="./assets/upload.png" alt="Upload Screen" width="800"/>
+  <p><em>Upload Interface</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/upload2.png" alt="Preview Screen" width="800"/>
+  <p><em>Upload Preview</em></p>
+</div>
+
+---
+
+### 🏅 Analysis
+
+<div align="center">
+  <img src="./assets/analysis.png" alt="Analysis Screenshot" width="800"/>
+  <p><em>Resume Analysis</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/analysis2.png" alt="Job Roles Screenshot" width="800"/>
+  <p><em>Multiple Sections</em></p>
+</div>
+
+---
+
+### 👩‍💻 Job Match
+
+<div align="center">
+  <img src="./assets/jobMatch.png" alt="Job Match 1" width="800"/>
+  <p><em>Paste Job Description</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/jobMatch2.png" alt="Job Match 2" width="800"/>
+  <p><em>Analyzes Match</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/jobMatch3.png" alt="Job Match 3" width="800"/>
+  <p><em>Custom Analysis</em></p>
+</div>
+
+---
+
+### 💬 Chat
+
+<div align="center">
+  <img src="./assets/chat.png" alt="Chat Screenshot" width="800"/>
+  <p><em>Chat Interface</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/chat2.png" alt="Chat Screenshot" width="800"/>
+  <p><em>Send Message</em></p>
+</div>
+
+<div align="center">
+  <img src="./assets/chat3.png" alt="Chat Screenshot" width="800"/>
+  <p><em>Personalized Response</em></p>
+</div>
+
+
+
+---
+
+
 ## 🛠 Stack
 
 - **Framework:** Next.js 14 (App Router)
