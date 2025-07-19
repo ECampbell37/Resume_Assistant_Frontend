@@ -4,6 +4,10 @@ Frontend for the AI-powered resume analysis tool. Users can upload resumes, rece
 
 Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supabase** and **NextAuth**.
 
+
+## 🎉 Live on Vercel  
+👉 [Visit Resume Assistant!](https://resume-assistant.website)
+
 ---
 
 ## 🔍 Overview
