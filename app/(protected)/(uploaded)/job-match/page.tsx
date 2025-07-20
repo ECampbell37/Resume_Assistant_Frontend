@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/(protected)/(uploaded)/job-match/page.tsx
+ ************************************************************/
+
+
+/**
+ * JobMatchPage.tsx – Allows users to compare their resume against a job description.
+ * 
+ * Features:
+ * - Loads the most recent uploaded resume from Supabase
+ * - Accepts a pasted job description and sends it to the backend for matching
+ * - Displays a detailed skill breakdown and match percentage using Markdown
+ * - Embeds a live PDF resume preview alongside results
+ * - Enforces per-user API usage limits
+ */
+
+
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -28,6 +49,7 @@ export default function JobMatchPage() {
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
 
+  // Fetch Resume from database
   useEffect(() => {
     const fetchResume = async () => {
       const userId = session?.user?.id;
@@ -56,11 +78,12 @@ export default function JobMatchPage() {
     fetchResume();
   }, [router, session, supabase]);
 
+  // When user clicks match job, run job match
   const handleJobMatch = async () => {
     const userId = session?.user?.id;
     if (!jobDescription.trim() || !userId || !previewUrl) return;
 
-    // ✅ Check usage allowance
+    // Check usage allowance
     const allowed = await checkApiAllowance(userId, 1);
     if (!allowed) {
       setMatchResult('❌ You’ve hit your daily usage limit. Please try again tomorrow.');

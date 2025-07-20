@@ -1,3 +1,25 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/(protected)/(uploaded)/revision/page.tsx
+ ************************************************************/
+
+
+/**
+ * RevisionPage.tsx – Generates a rewritten, polished version of the user's resume.
+ * 
+ * Features:
+ * - Loads the user's uploaded resume from Supabase
+ * - Sends the file to the backend for AI-powered rewriting
+ * - Displays the rewritten content with Markdown formatting
+ * - Allows one-click copy of the rewritten resume (with hover/fade UX)
+ * - Supports "Rewrite Again" regeneration
+ * - Shows side-by-side original PDF preview
+ * - Enforces per-user API usage limits for rewrite requests
+ */
+
+
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -17,14 +39,13 @@ export default function RevisionPage() {
   const [showCopy, setShowCopy] = useState(false);
   const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  
-
   const contentRef = useRef<HTMLDivElement>(null);
 
   const { data: session } = useSession();
   const router = useRouter();
   const supabase = createClientComponentClient();
 
+  // Fetch resume from database
   useEffect(() => {
     const fetchResume = async () => {
       const userId = session?.user?.id;
@@ -65,10 +86,12 @@ export default function RevisionPage() {
     fetchResume();
   }, [session, supabase, router]);
 
+  // Runs resume rewrite 
   const handleRewrite = async () => {
     const userId = session?.user?.id;
     if (!userId || !previewUrl) return;
 
+    // Check user's API limit
     const allowed = await checkApiAllowance(userId, 2);
     if (!allowed) {
       setRewritten('❌ You’ve hit your daily usage limit. Please try again tomorrow.');

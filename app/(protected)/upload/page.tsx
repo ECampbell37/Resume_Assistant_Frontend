@@ -1,3 +1,27 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/(protected)/upload/page.tsx
+ ************************************************************/
+
+
+/**
+ * UploadPage.tsx – Handles resume upload, validation, analysis, and storage.
+ * 
+ * Features:
+ * - Validates PDF uploads (type and size) with error handling
+ * - Deletes previous resume from Supabase Storage (if exists)
+ * - Uploads new resume to Supabase and stores public URL
+ * - Sends the resume to the backend for analysis
+ * - Saves analysis results in the `resume_results` table
+ * - Displays an animated loading screen during analysis
+ * - Provides resume preview and graceful fallback UI
+ * - Enforces daily API usage limits before proceeding
+ */
+
+
+
 'use client';
 
 import { useState } from 'react';
@@ -7,6 +31,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { checkApiAllowance } from '@/lib/checkApiAllowance';
 import { UploadCloud, FileText, AlertTriangle, Eye, EyeOff } from 'lucide-react';
 
+// Loading screen after resume upload
 function LoadingScreen() {
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-green-300 animate-fadeIn">
@@ -30,6 +55,7 @@ export default function UploadPage() {
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
 
+  // Handles when user uploads resume
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const uploaded = e.target.files?.[0] || null;
     setFile(null);
@@ -49,6 +75,7 @@ export default function UploadPage() {
     setPreviewUrl(url);
   };
 
+  // Handles when user clicks analyze resume
   const handleAnalyze = async () => {
     if (!file) return;
 
@@ -59,7 +86,7 @@ export default function UploadPage() {
       const userId = session?.user?.id;
       if (!userId) throw new Error('User not authenticated');
 
-      // ✅ API usage check (cost = 10)
+      // API usage check (cost = 10)
       const allowed = await checkApiAllowance(userId, 10);
       if (!allowed) {
         throw new Error('Daily usage limit reached');
@@ -138,6 +165,7 @@ export default function UploadPage() {
 
       let friendlyMessage = 'Something went wrong. Please try again.';
 
+      // User-friendly error message outputs
       if (err instanceof Error) {
         if (err.message.includes('User not authenticated')) {
           friendlyMessage = 'You must be signed in to upload a resume.';

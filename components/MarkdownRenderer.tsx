@@ -1,3 +1,22 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /components/MarkdownRenderer.tsx
+ ************************************************************/
+
+
+/**
+ * MarkdownRenderer.tsx – Renders AI-generated Markdown content with custom styling.
+ * 
+ * Features:
+ * - Parses and formats Markdown blocks using ReactMarkdown and remark-gfm
+ * - Applies consistent visual styles for headings, lists, paragraphs, and emphasis
+ * - Splits content by double newlines to improve layout spacing
+ * - Supports resume sections, chatbot replies, and analysis summaries
+ */
+
+
 'use client';
 
 import React from 'react';

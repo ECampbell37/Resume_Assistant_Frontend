@@ -1,4 +1,21 @@
-// components/NavBar.tsx
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /components/NavBar.tsx
+ ************************************************************/
+
+
+/**
+ * NavBar.tsx – Fixed top navigation bar for branding and account access.
+ * 
+ * Features:
+ * - Displays logo and app name with link to homepage
+ * - Provides quick access to the user’s account page
+ * - Responsive layout with mobile-optimized spacing and icon sizing
+ * - Remains visible across all pages as a persistent header
+ */
+
 
 'use client';
 

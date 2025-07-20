@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/signup/page.tsx
+ ************************************************************/
+
+
+/**
+ * SignUpPage.tsx – Registers new users through a custom API route.
+ * 
+ * Features:
+ * - Collects email and password from user input
+ * - Sends a POST request to `/api/auth/signup` to create an account
+ * - Handles and displays error messages from the API response
+ * - Redirects users to the Sign In page after successful registration
+ * - Provides a link to return to the Sign In page
+ */
+
+
+
 'use client';
 
 import { useState } from 'react';

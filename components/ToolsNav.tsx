@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /components/ToolsNav.tsx
+ ************************************************************/
+
+
+/**
+ * ToolsNav.tsx – Renders a navigation bar for accessing core app tools.
+ * 
+ * Features:
+ * - Displays buttons for Analysis, Job Match, Chatbot, and Revision pages
+ * - Highlights the active tool based on current route
+ * - Uses Lucide icons with consistent styling for each tool
+ * - Fully responsive and mobile-friendly with wrap support
+ * - Styled to match the app's green/black theme with dynamic hover effects
+ */
+
+
+
 'use client';
 
 import Link from 'next/link';

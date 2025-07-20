@@ -1,3 +1,23 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/(protected)/(uploaded)/analysis/page.tsx
+ ************************************************************/
+
+
+/**
+ * AnalysisPage.tsx – Displays AI-generated feedback for each section of a user’s resume.
+ * 
+ * Features:
+ * - Fetches the latest resume analysis results from Supabase
+ * - Supports step-by-step navigation through feedback sections
+ * - Integrates Markdown rendering for AI responses
+ * - Embeds a live PDF preview of the uploaded resume
+ * - Links to Job Match and Chatbot modes via ToolsNav
+ */
+
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -8,6 +28,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ToolsNav from '@/components/ToolsNav';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 
+//JSON keys for backend analysis
 const sections = [
   'summary',
   'personal_info',
@@ -41,6 +62,8 @@ export default function AnalysisPage() {
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
 
+
+  //Fetches user's resume and analysis data
   useEffect(() => {
     const fetchResults = async () => {
       const userId = session?.user?.id;
@@ -74,6 +97,7 @@ export default function AnalysisPage() {
 
   if (!results) return null;
 
+  // Sets analysis section and corresponding result
   const currentKey: SectionKey = sections[currentIndex];
   const currentValue = results[currentKey];
 

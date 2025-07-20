@@ -1,3 +1,25 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/(protected)/(uploaded)/chat/page.tsx
+ ************************************************************/
+
+
+/**
+ * ChatPage.tsx – Resume-aware chatbot interface for personalized Q&A.
+ * 
+ * Features:
+ * - Loads and parses the user’s latest resume from Supabase
+ * - Sends user questions to the backend for resume-specific responses
+ * - Displays assistant and user messages with styled Markdown formatting
+ * - Shows real-time loading indicator with animated feedback
+ * - Embeds a side-by-side PDF preview of the uploaded resume
+ * - Enforces per-user API usage limits before each interaction
+ */
+
+
+
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
@@ -25,6 +47,7 @@ export default function ChatPage() {
   const { data: session } = useSession();
   const supabase = createClientComponentClient();
 
+  // Fetches user's resume from database 
   useEffect(() => {
     const fetchResume = async () => {
       const userId = session?.user?.id;
@@ -64,6 +87,7 @@ export default function ChatPage() {
   }, [session, supabase, router]);
 
 
+  // Handle message sending/receiving logic
   const sendMessage = async () => {
     const userId = session?.user?.id;
     if (!input.trim() || !userId) return;

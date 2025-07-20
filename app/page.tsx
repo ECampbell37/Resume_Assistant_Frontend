@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/page.tsx
+ ************************************************************/
+
+
+/**
+ * HomePage.tsx – Landing page for the Resume Assistant web app.
+ * 
+ * Features:
+ * - Promotes key app benefits with animated hero section
+ * - Describes the step-by-step process of resume analysis
+ * - Provides CTAs for uploading a resume and signing up
+ * - Includes animated icons and responsive layout for all devices
+ * - Footer includes credit and copyright
+ */
+
+
+
 'use client';
 
 import { UploadCloud, Sparkles, FileText, GaugeCircle, UserCircle2 } from 'lucide-react';

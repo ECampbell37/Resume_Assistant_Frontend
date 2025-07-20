@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/signin/page.tsx
+ ************************************************************/
+
+
+/**
+ * SignInPage.tsx – Authenticates users using email and password via NextAuth credentials provider.
+ * 
+ * Features:
+ * - Accepts user input for email and password
+ * - Uses `signIn()` with redirect disabled for client-side handling
+ * - Displays inline error message for invalid credentials
+ * - Redirects to the account dashboard upon successful login
+ * - Includes a link to the Sign Up page for new users
+ */
+
+
+
 'use client';
 
 import { useState } from 'react';

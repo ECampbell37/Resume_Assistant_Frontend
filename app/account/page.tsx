@@ -1,3 +1,24 @@
+/************************************************************
+ * Name:    Elijah Campbell‑Ihim
+ * Project: Resume Assistant
+ * Date:    July 2025
+ * File:    /app/account/page.tsx
+ ************************************************************/
+
+
+/**
+ * AccountPage.tsx – Displays user account information, resume usage, and access to key actions.
+ * 
+ * Features:
+ * - Shows user email, join date, and daily API usage progress bar
+ * - Provides quick links to upload a new resume, view analysis, and toggle preview
+ * - Embeds the most recent resume file in a live PDF preview
+ * - Fetches user usage data and resume file URL from backend APIs
+ * - Includes sign-in fallback screen and sign-out button
+ */
+
+
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -17,12 +38,14 @@ export default function AccountPage() {
   const [resumeUrl, setResumeUrl] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
 
+  // Sets user session
   useEffect(() => {
     if (session?.user?.id) {
       sessionStorage.setItem('user_id', session.user.id);
     }
   }, [session]);
 
+  // Fetches user join data
   useEffect(() => {
     const fetchJoinDate = async () => {
       if (!session?.user?.id) return;
@@ -40,6 +63,7 @@ export default function AccountPage() {
     if (status === 'authenticated') fetchJoinDate();
   }, [session, status]);
 
+  // Fetches user's API usage
   useEffect(() => {
     const fetchUsage = async () => {
       if (!session?.user?.id) return;
@@ -57,6 +81,7 @@ export default function AccountPage() {
     if (status === 'authenticated') fetchUsage();
   }, [session, status]);
 
+  // Fetches user's resume
   useEffect(() => {
     const fetchResume = async () => {
       const res = await fetch('/api/resume/latest', {
@@ -72,6 +97,8 @@ export default function AccountPage() {
     if (session?.user?.id) fetchResume();
   }, [session]);
 
+
+  // Lock screen (not signed in)
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black text-green-300 animate-fadeInUp">
@@ -94,6 +121,7 @@ export default function AccountPage() {
     );
   }
 
+  // API Usage bar logic
   const usagePercent = Math.min((usage / DAILY_LIMIT) * 100, 100);
   let usageColor = 'bg-green-500';
   if (usagePercent > 90) usageColor = 'bg-red-500';
