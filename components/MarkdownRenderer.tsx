@@ -38,6 +38,12 @@ export default function MarkdownRenderer({ content }: { content: string }) {
               p: ({ children }) => (
                 <p className="text-green-200">{children}</p>
               ),
+              h1: (props) => (
+                <h1
+                  className="text-2xl md:text-3xl font-bold text-green-300 pb-1 mt-2 mb-2"
+                  {...props}
+                />
+              ),
               h2: (props) => (
                 <h2
                   className="text-xl md:text-2xl font-bold text-green-300 border-b border-green-700 pb-1 mt-2 mb-2"
@@ -47,6 +53,12 @@ export default function MarkdownRenderer({ content }: { content: string }) {
               h3: (props) => (
                 <h3
                   className="text-lg md:text-xl font-semibold text-green-300 mt-4 mb-2"
+                  {...props}
+                />
+              ),
+              h4: (props) => (
+                <h4
+                  className="text-lg md:text-xl font-medium text-green-300 mt-4 mb-2"
                   {...props}
                 />
               ),

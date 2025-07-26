@@ -119,18 +119,27 @@ export default function JobMatchPage() {
       const result: JobMatchResult = await res.json();
 
       const markdown = `
-## 🎯 Match Score: **${result.match_percentage}%**
-**Fit:** _${result.fit_category}_
+# 🎯 Overall Fit: _${result.fit_category}_
+
 
 ## ✅ Matched Skills
-${result.matched_skills.map((s) => `- ${s}`).join('\n')}
+${
+  result.matched_skills?.length
+    ? result.matched_skills.map((s) => `- ${s}`).join('\n')
+    : '_No clearly matched skills found._'
+}
 
 ## ❌ Missing Skills
-${result.missing_skills.map((s) => `- ${s}`).join('\n')}
+${
+  result.missing_skills?.length
+    ? result.missing_skills.map((s) => `- ${s}`).join('\n')
+    : '_No major missing skills were identified._'
+}
 
 ## 💡 Recommendation
 ${result.recommendation}
 `.trim();
+
 
       setMatchResult(markdown);
     } catch (err) {
