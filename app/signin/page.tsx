@@ -56,7 +56,13 @@ export default function SignInPage() {
 
         <h1 className="text-3xl 2xl:text-4xl font-bold text-center">Sign In</h1>
 
-        <div className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+          className="space-y-6"
+        >
           <div className="space-y-2">
             <label className="text-sm 2xl:text-base text-gray-300 flex items-center gap-2 font-medium">
               <Mail size={16} />
@@ -86,18 +92,18 @@ export default function SignInPage() {
               required
             />
           </div>
-        </div>
 
-        {error && (
-          <p className="text-red-400 text-sm 2xl:text-base text-center">{error}</p>
-        )}
+          {error && (
+            <p className="text-red-400 text-sm 2xl:text-base text-center">{error}</p>
+          )}
 
-        <button
-          onClick={handleLogin}
-          className="2xl:text-lg w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-transform shadow-md"
-        >
-          Sign In
-        </button>
+          <button
+            type="submit"
+            className="mt-2 2xl:text-lg w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-transform shadow-md"
+          >
+            Sign In
+          </button>
+        </form>
 
         <p className="text-sm 2xl:text-base text-center text-gray-400">
           New here?{' '}

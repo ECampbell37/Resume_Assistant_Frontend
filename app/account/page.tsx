@@ -107,13 +107,13 @@ export default function AccountPage() {
           <Lock className="w-14 h-14 text-teal-400 animate-pulse" />
         </div>
 
-        <h2 className="text-3xl font-bold">You&apos;re not signed in</h2>
-        <p className="text-sm text-gray-400 leading-relaxed">
+        <h2 className="text-3xl 2xl:text-4xl font-bold">You&apos;re not signed in</h2>
+        <p className="text-sm 2xl:text-base text-gray-400 leading-relaxed">
           Sign in to unlock your personalized dashboard and dive into your resume insights—tailored just for you.
         </p>
 
         <Link href="/signin">
-          <button className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform">
+          <button className="2xl:text-xl inline-flex items-center gap-2 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform">
             <LogIn size={18} />
             Sign In
           </button>

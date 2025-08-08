@@ -180,7 +180,7 @@ ${result.recommendation}
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               placeholder="Paste a job description here..."
-              className="w-full bg-zinc-800 text-emerald-200 p-4 rounded-xl h-2/3 mb-4 border border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-base leading-relaxed"
+              className="w-full bg-zinc-800 text-emerald-200 p-4 rounded-xl h-60 mb-4 border border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-base leading-relaxed"
             />
             <button
               onClick={handleJobMatch}

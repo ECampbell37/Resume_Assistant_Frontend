@@ -56,7 +56,13 @@ export default function SignUpPage() {
 
         <h1 className="text-3xl 2xl:text-4xl font-bold text-center">Create an Account</h1>
 
-        <div className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSignup();
+          }}
+          className="space-y-6"
+        >
           <div className="space-y-2">
             <label className="text-sm 2xl:text-base text-gray-300 flex items-center gap-2 font-medium">
               <Mail size={16} />
@@ -86,18 +92,18 @@ export default function SignUpPage() {
               className="w-full px-4 py-3 rounded-lg bg-[#111827] text-white placeholder-gray-500 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
-        </div>
 
-        {error && (
-          <p className="text-red-400 text-sm 2xl:text-base text-center">{error}</p>
-        )}
+          {error && (
+            <p className="text-red-400 text-sm 2xl:text-base text-center">{error}</p>
+          )}
 
-        <button
-          onClick={handleSignup}
-          className="2xl:text-lg w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-transform shadow-md"
-        >
-          Sign Up
-        </button>
+          <button
+            type="submit"
+            className="mt-2 2xl:text-lg w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-transform shadow-md"
+          >
+            Sign Up
+          </button>
+        </form>
 
         <p className="text-sm 2xl:text-base text-center text-gray-400">
           Already have an account?{' '}
