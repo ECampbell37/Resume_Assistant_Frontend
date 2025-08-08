@@ -34,7 +34,6 @@ export default function UploadedLayout({
   const supabase = createClientComponentClient();
 
   const [checking, setChecking] = useState(true);
-  const [hasResume, setHasResume] = useState(false);
 
   useEffect(() => {
     const checkResume = async () => {
@@ -50,8 +49,6 @@ export default function UploadedLayout({
 
       if (error || !data) {
         router.replace('/upload');
-      } else {
-        setHasResume(true);
       }
 
       setChecking(false);

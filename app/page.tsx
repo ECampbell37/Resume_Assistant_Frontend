@@ -20,6 +20,7 @@
 
 import { UploadCloud, Sparkles, FileText, GaugeCircle, UserCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function HomePage() {
   return (
@@ -62,11 +63,13 @@ export default function HomePage() {
         {/* Hero Image */}
         <div className="hidden md:block md:flex-1 animate-fadeIn">
           <div className="relative w-full h-108 2xl:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-white/5">
-            <img
-              src="/hero.png"
-              alt="Resume Assistant Illustration"
-              className="w-full h-full object-cover"
-            />
+          <Image
+            src="/hero.png"
+            alt="Resume Assistant Illustration"
+            width={800}
+            height={500}
+            className="w-full h-full object-cover"
+          />
           </div>
         </div>
       </section>

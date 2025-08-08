@@ -56,7 +56,7 @@ function LoadingScreen() {
     }, 6000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
+  }, [currentIndex, messages.length]);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0b0f14] text-white animate-fadeIn px-4">

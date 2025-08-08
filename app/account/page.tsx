@@ -126,9 +126,6 @@ export default function AccountPage() {
 
   // API Usage bar logic
   const usagePercent = Math.min((usage / DAILY_LIMIT) * 100, 100);
-  let usageColor = 'bg-teal-500';
-  if (usagePercent > 90) usageColor = 'bg-red-500';
-  else if (usagePercent > 75) usageColor = 'bg-yellow-500';
 
 
   return (
