@@ -1,23 +1,19 @@
 /************************************************************
- * Name:    Elijah Campbell‑Ihim
+ * Name:    Elijah Campbell-Ihim
  * Project: Resume Assistant
- * Date:    July 2025
+ * Date:    August 2025
  * File:    /components/ToolsNav.tsx
  ************************************************************/
 
-
 /**
- * ToolsNav.tsx – Renders a navigation bar for accessing core app tools.
- * 
- * Features:
- * - Displays buttons for Analysis, Job Match, Chatbot, and Revision pages
- * - Highlights the active tool based on current route
- * - Uses Lucide icons with consistent styling for each tool
- * - Fully responsive and mobile-friendly with wrap support
- * - Styled to match the app's green/black theme with dynamic hover effects
+ * ToolsNav.tsx – Navigation for core app tools.
+ *
+ * Upgrades:
+ * - Matches new brand colors & rounded pill style
+ * - Smooth hover animations and subtle glow effect
+ * - Active state with gradient background and scale
+ * - Better spacing and mobile responsiveness
  */
-
-
 
 'use client';
 
@@ -44,11 +40,11 @@ export default function ToolsNav() {
           <Link
             key={tool.href}
             href={tool.href}
-            className={`inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 shadow-sm
+            className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-sm 2xl:text-base font-medium transition-all duration-300
               ${
                 isActive
-                  ? 'bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white shadow-lg scale-105'
-                  : 'bg-zinc-800 text-green-300 hover:bg-gradient-to-r hover:from-green-500 hover:via-emerald-600 hover:to-teal-500 hover:text-white hover:scale-105'
+                  ? 'bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black shadow-lg scale-105'
+                  : 'bg-[#0f1720] text-gray-300 border border-white/5 hover:bg-gradient-to-r hover:from-teal-400 hover:via-cyan-400 hover:to-emerald-500 hover:text-black hover:shadow-lg hover:scale-105'
               }`}
           >
             {tool.icon}

@@ -1,10 +1,14 @@
 @import "tailwindcss";
 
+/* --------------------------------------------------
+ * Root Variables (Light Theme Defaults)
+ * -------------------------------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* Tailwind Theme Inline Extensions */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,13 +16,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* --------------------------------------------------
+ * Dark Mode Support
+ * -------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #000000;
+    --background: #0b0f14;
     --foreground: #ededed;
   }
 }
 
+/* --------------------------------------------------
+ * Keyframes
+ * -------------------------------------------------- */
+
+/* Fade in from below */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -34,7 +46,7 @@
   animation: fadeInUp 0.6s ease-out;
 }
 
-
+/* Simple fade in */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -48,7 +60,7 @@
   animation: fadeIn 1.2s ease-out;
 }
 
-
+/* 45-second linear progress animation */
 @keyframes progress45 {
   from {
     width: 0%;
@@ -62,8 +74,9 @@
   animation: progress45 45s linear;
 }
 
-
-
+/* --------------------------------------------------
+ * Base Styles
+ * -------------------------------------------------- */
 body {
   background: var(--background);
   color: var(--foreground);

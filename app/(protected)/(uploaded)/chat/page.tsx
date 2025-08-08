@@ -140,32 +140,34 @@ export default function ChatPage() {
 
 
   return (
-  <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
-    {/* Welcome Header */}
-    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-4">
-      <h1 className="text-3xl md:text-4xl font-bold text-green-300">
-        Resume Chatbot 🤖
+  <div className="min-h-screen flex flex-col items-center bg-[#0b0f14] text-teal-300 px-4 py-8">
+    {/* Header */}
+    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-3">
+      <h1 className="text-4xl font-extrabold tracking-tight text-white">
+        Resume Chatbot 💬
       </h1>
-      <p className="text-green-400 text-base md:text-lg font-medium leading-relaxed">
-        Ask questions about your resume and get personalized feedback from an AI assistant.
-        Try things like{' '}
-        <span className="bg-zinc-800 text-green-300 font-mono px-2 py-1 mx-1 my-1 rounded-md text-sm inline-block">
+      <p className="text-emerald-300 text-base md:text-lg font-medium leading-relaxed">
+        Ask questions about your resume and get personalized AI feedback. Try asking: 
+        <span className="bg-zinc-800 text-teal-300 font-mono my-1 px-2 py-1 mx-1 rounded-md text-sm inline-block">
           What skills should I earn next?
         </span>
         or
-        <span className="bg-zinc-800 text-green-300 font-mono px-2 py-1 mx-1 my-1 rounded-md text-sm inline-block">
+        <span className="bg-zinc-800 text-teal-300 font-mono my-1 px-2 py-1 mx-1 rounded-md text-sm inline-block">
           How do I get a job as a ___?
         </span>
       </p>
     </div>
-    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
-      {/* Chatbot Section */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 md:p-6 rounded-2xl shadow-xl h-[500px]">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Resume Chatbot</h2>
 
+    {/* Chat Panel */}
+    <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
+      {/* Chatbox */}
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px]">
+        <h2 className="text-2xl font-bold text-center mb-4 text-teal-300">Resume Chat</h2>
+
+        {/* Message Thread */}
         <div className="flex-1 bg-zinc-800 p-4 rounded-xl overflow-y-auto space-y-4">
           {messages.length === 0 && (
-            <p className="text-center text-green-400 italic">
+            <p className="text-center text-emerald-300 italic">
               Ask any question about your resume…
             </p>
           )}
@@ -173,15 +175,13 @@ export default function ChatPage() {
           {messages.map((msg, idx) => (
             <div
               key={idx}
-              className={`flex ${
-                msg.role === 'user' ? 'justify-end' : 'justify-start'
-              } animate-fadeIn`}
+              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'} animate-fadeIn`}
             >
               <div
-                className={`max-w-xs md:max-w-sm lg:max-w-md px-4 py-3 rounded-2xl text-sm shadow-md break-words ${
+                className={`max-w-xs md:max-w-sm lg:max-w-md px-4 py-3 rounded-2xl text-sm shadow-md break-words prose prose-invert ${
                   msg.role === 'user'
-                    ? 'bg-emerald-600 text-black rounded-br-none'
-                    : 'bg-zinc-700 text-green-100 rounded-bl-none'
+                    ? 'bg-gradient-to-r from-teal-600 to-emerald-500 text-black rounded-br-none'
+                    : 'bg-zinc-700 text-emerald-100 rounded-bl-none'
                 }`}
               >
                 <MarkdownRenderer content={msg.content} />
@@ -190,30 +190,31 @@ export default function ChatPage() {
           ))}
 
           {loading && (
-          <div className="flex justify-start animate-fadeIn">
-            <div className="max-w-xs md:max-w-sm lg:max-w-md px-4 py-3 rounded-2xl text-sm shadow-md bg-zinc-700 text-green-100 rounded-bl-none">
-              <div className="flex items-center gap-2">
-                <span>AI is typing</span>
-                <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-green-300 rounded-full animate-bounce [animation-delay:0s]" />
-                  <div className="w-2 h-2 bg-green-300 rounded-full animate-bounce [animation-delay:.15s]" />
-                  <div className="w-2 h-2 bg-green-300 rounded-full animate-bounce [animation-delay:.3s]" />
+            <div className="flex justify-start animate-fadeIn">
+              <div className="max-w-xs md:max-w-sm lg:max-w-md px-4 py-3 rounded-2xl text-sm shadow-md bg-zinc-700 text-emerald-100 rounded-bl-none">
+                <div className="flex items-center gap-2">
+                  <span>AI is typing</span>
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 bg-teal-300 rounded-full animate-bounce [animation-delay:0s]" />
+                    <div className="w-2 h-2 bg-teal-300 rounded-full animate-bounce [animation-delay:.15s]" />
+                    <div className="w-2 h-2 bg-teal-300 rounded-full animate-bounce [animation-delay:.3s]" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+
           <div ref={chatEndRef} />
         </div>
 
-        {/* Input Bar */}
+        {/* Input Row */}
         <div className="mt-4 flex items-center gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about your resume..."
-            className="flex-1 bg-zinc-700 text-green-200 px-4 py-2 rounded-full outline-none border border-green-600 focus:ring-2 focus:ring-green-400 transition"
+            className="flex-1 bg-zinc-700 text-emerald-200 px-4 py-2 rounded-full outline-none border border-teal-600 focus:ring-2 focus:ring-teal-400 transition"
             onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
             disabled={loading}
           />
@@ -223,7 +224,7 @@ export default function ChatPage() {
             className={`p-2 rounded-full transition ${
               loading || !input.trim()
                 ? 'bg-zinc-600 cursor-not-allowed'
-                : 'bg-green-600 hover:bg-green-500 text-black'
+                : 'bg-gradient-to-r from-teal-600 to-emerald-500 hover:brightness-110 text-black'
             }`}
           >
             <Send className="w-5 h-5" />
@@ -232,28 +233,30 @@ export default function ChatPage() {
       </div>
 
       {/* Resume Preview */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 rounded-2xl shadow-xl h-[500px]">
-        <h3 className="text-lg font-semibold mb-4 text-center">Resume Preview</h3>
-        <div className="flex-1 overflow-hidden rounded-lg border border-green-700 bg-zinc-800">
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px]">
+        <h3 className="text-lg 2xl:text-xl font-semibold mb-4 text-center text-teal-300">Resume Preview</h3>
+        <div className="flex-1 overflow-hidden rounded-xl border border-teal-600 bg-zinc-800">
           {previewUrl ? (
             <iframe
               src={`${previewUrl}#view=FitH`}
-              className="w-full h-full rounded-lg"
+              className="w-full h-full rounded-xl"
               title="Resume Preview"
               style={{ border: 'none' }}
             />
           ) : (
-            <p className="text-center text-green-400 py-20">Loading resume...</p>
+            <p className="text-center text-emerald-300 py-20">Loading resume...</p>
           )}
         </div>
       </div>
     </div>
 
     {/* Tools Navigation */}
-    <div className="mt-10 w-full">
+    <div className="mt-12 w-full">
       <ToolsNav />
     </div>
   </div>
 );
+
+
 
 }

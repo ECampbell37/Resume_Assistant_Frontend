@@ -29,44 +29,44 @@ export default function MarkdownRenderer({ content }: { content: string }) {
   const blocks = content.trim().split(/\n{2,}/g);
 
   return (
-    <div className="text-green-200 text-base md:text-lg leading-relaxed">
+    <div className="text-teal-100 text-base md:text-lg leading-relaxed">
       {blocks.map((block, i) => (
         <div key={i} className={`${i !== 0 ? 'mt-6' : ''} space-y-2`}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
               p: ({ children }) => (
-                <p className="text-green-200">{children}</p>
+                <p className="text-teal-100">{children}</p>
               ),
               h1: (props) => (
                 <h1
-                  className="text-2xl md:text-3xl font-bold text-green-300 pb-1 mt-2 mb-2"
+                  className="text-2xl md:text-3xl font-bold text-teal-200 pb-1 mt-2 mb-2"
                   {...props}
                 />
               ),
               h2: (props) => (
                 <h2
-                  className="text-xl md:text-2xl font-bold text-green-300 border-b border-green-700 pb-1 mt-2 mb-2"
+                  className="text-xl md:text-2xl font-bold text-teal-200 border-b border-teal-600 pb-1 mt-2 mb-2"
                   {...props}
                 />
               ),
               h3: (props) => (
                 <h3
-                  className="text-lg md:text-xl font-semibold text-green-300 mt-4 mb-2"
+                  className="text-lg md:text-xl font-semibold text-teal-200 mt-4 mb-2"
                   {...props}
                 />
               ),
               h4: (props) => (
                 <h4
-                  className="text-lg md:text-xl font-medium text-green-300 mt-4 mb-2"
+                  className="text-base md:text-lg font-medium text-teal-200 mt-4 mb-2"
                   {...props}
                 />
               ),
               strong: (props) => (
-                <strong className="text-green-300 font-semibold" {...props} />
+                <strong className="text-teal-200 font-semibold" {...props} />
               ),
               ul: (props) => (
-                <ul className="list-disc ml-5 space-y-1" {...props} />
+                <ul className="list-disc ml-5 space-y-1 text-teal-100" {...props} />
               ),
               li: (props) => (
                 <li className="leading-normal" {...props} />

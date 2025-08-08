@@ -24,6 +24,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Mail, LockKeyhole, UserPlus } from 'lucide-react';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -47,42 +48,64 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-green-300 px-6 py-10">
-      <div className="bg-zinc-900 p-8 rounded-2xl shadow-xl w-full max-w-sm space-y-10 animate-fadeInUp">
-        <h1 className="text-3xl font-bold text-center">Create an Account</h1>
+    <main className="min-h-screen bg-[#0b0f14] text-white flex justify-center items-center px-6">
+      <div className="w-full max-w-md 2xl:max-w-lg bg-[#0f1720] p-8 rounded-2xl shadow-xl space-y-8 animate-fadeInUp">
+        <div className="flex justify-center">
+          <UserPlus className="w-12 h-12 2xl:w-16 2xl:h-16 text-teal-400 animate-pulse" />
+        </div>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full px-4 py-3 rounded-lg bg-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm transition"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <h1 className="text-3xl 2xl:text-4xl font-bold text-center">Create an Account</h1>
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full px-4 py-3 rounded-lg bg-zinc-800 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-green-500 shadow-sm transition"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm 2xl:text-base text-gray-300 flex items-center gap-2 font-medium">
+              <Mail size={16} />
+              Email Address
+            </label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg bg-[#111827] text-white placeholder-gray-500 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          </div>
 
-        {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+          <div className="space-y-2">
+            <label className="text-sm 2xl:text-base text-gray-300 flex items-center gap-2 font-medium">
+              <LockKeyhole size={16} />
+              Password
+            </label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-lg bg-[#111827] text-white placeholder-gray-500 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          </div>
+        </div>
+
+        {error && (
+          <p className="text-red-400 text-sm 2xl:text-base text-center">{error}</p>
+        )}
 
         <button
           onClick={handleSignup}
-          className="w-full bg-gradient-to-r from-green-600 text-lg via-emerald-600 to-teal-600 text-white font-semibold py-3 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300"
+          className="2xl:text-lg w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-transform shadow-md"
         >
           Sign Up
         </button>
 
-        <p className="text-sm text-center text-zinc-400">
+        <p className="text-sm 2xl:text-base text-center text-gray-400">
           Already have an account?{' '}
-          <Link href="/signin" className="text-green-400 hover:underline">
+          <Link href="/signin" className="text-teal-400 hover:underline font-medium">
             Sign in
           </Link>
         </p>
       </div>
-    </div>
+    </main>
   );
 }

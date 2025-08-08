@@ -1,23 +1,20 @@
 /************************************************************
- * Name:    Elijah Campbell‑Ihim
+ * Name:    Elijah Campbell-Ihim
  * Project: Resume Assistant
- * Date:    July 2025
+ * Date:    August 2025
  * File:    /app/page.tsx
  ************************************************************/
 
-
 /**
  * HomePage.tsx – Landing page for the Resume Assistant web app.
- * 
- * Features:
- * - Promotes key app benefits with animated hero section
- * - Describes the step-by-step process of resume analysis
- * - Provides CTAs for uploading a resume and signing up
- * - Includes animated icons and responsive layout for all devices
- * - Footer includes credit and copyright
+ *
+ * Upgrades:
+ * - Modern hero layout with two-column option for larger screens
+ * - Branded gradient accents and improved typography hierarchy
+ * - Animated hover effects for CTAs
+ * - Cleaner "How It Works" section with consistent card design
+ * - Fully responsive with mobile-first approach
  */
-
-
 
 'use client';
 
@@ -26,91 +23,102 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-black text-green-300 px-6 py-20 space-y-24 2xl:px-20 2xl:py-28">
+    <main className="min-h-screen bg-[#0b0f14] text-white pt-24 pb-20 px-6 2xl:px-20 space-y-24 animate-fadeInUp">
       {/* Hero Section */}
-      <section className="text-center max-w-2xl 2xl:max-w-4xl mx-auto animate-fadeInUp space-y-6">
-        <div className="flex justify-center">
-          <Sparkles className="w-10 h-10 text-green-400 animate-pulse" />
+      <section className="max-w-6xl 2xl:max-w-7xl mx-auto text-center md:text-left md:flex md:items-center md:justify-between gap-12 2xl:gap-16">
+        <div className="space-y-6 md:max-w-xl 2xl:max-w-2xl">
+          <div className="flex justify-center md:justify-start">
+            <Sparkles className="w-10 h-10 text-teal-400 animate-pulse" />
+          </div>
+
+          <h1 className="text-4xl md:text-5xl 2xl:text-6xl font-extrabold leading-tight">
+            Empower Your <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 bg-clip-text text-transparent">Resume</span> with AI
+          </h1>
+
+          <p className="text-lg md:text-xl 2xl:text-2xl text-gray-300 max-w-lg 2xl:max-w-xl">
+            Upload your resume to get instant feedback, actionable suggestions, and job-matching insights — all powered by AI.
+          </p>
+
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 2xl:gap-6">
+            <Link href="/upload">
+              <button className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 px-8 2xl:py-4 2xl:px-10 rounded-full shadow-lg text-lg 2xl:text-xl hover:scale-105 transition-transform duration-300">
+                <UploadCloud className="w-5 h-5" />
+                Upload Your Resume
+              </button>
+            </Link>
+            <Link href="/signup">
+              <button className="inline-flex items-center gap-2 border border-white/20 text-white font-semibold py-3 px-8 2xl:py-4 2xl:px-10 rounded-full hover:bg-white/10 transition-all duration-300">
+                <Sparkles className="w-5 h-5" />
+                Sign Up Free
+              </button>
+            </Link>
+          </div>
+
+          <p className="mt-3 text-sm 2xl:text-base text-gray-400">
+            100% free · Built with AI · Secure by design
+          </p>
         </div>
 
-        <h1 className="text-4xl md:text-5xl 2xl:text-6xl font-extrabold tracking-tight leading-tight">
-          Empower Your Resume with AI
-        </h1>
-
-        <p className="text-lg md:text-xl 2xl:text-2xl text-green-400">
-          Upload your resume to get instant feedback, actionable suggestions, and job-matching insights.
-        </p>
-
-        <Link href="/upload">
-          <button className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 text-white font-semibold py-3 px-8 2xl:py-4 2xl:px-10 rounded-full shadow-lg text-xl 2xl:text-2xl hover:scale-105 transition-transform duration-300">
-            <UploadCloud className="w-5 h-5" />
-            Upload Your Resume
-          </button>
-        </Link>
-
-        <p className="mt-6 text-sm 2xl:text-base text-green-500">
-          100% free · Built with AI · Secure by design
-        </p>
+        {/* Hero Image */}
+        <div className="hidden md:block md:flex-1 animate-fadeIn">
+          <div className="relative w-full h-108 2xl:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-white/5">
+            <img
+              src="/hero.png"
+              alt="Resume Assistant Illustration"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </div>
       </section>
 
       {/* How It Works */}
-      <section className="max-w-6xl 2xl:max-w-screen-xl mx-auto px-4 animate-fadeIn">
-        <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-bold text-center mb-12 text-green-400">
+      <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 2xl:px-0">
+        <h2 className="text-3xl md:text-4xl 2xl:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-emerald-500 bg-clip-text text-transparent">
           How It Works
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 2xl:gap-10">
           {[
             {
-              icon: <UserCircle2 className="w-10 h-10 text-green-400" />,
+              icon: <UserCircle2 className="w-10 h-10 text-teal-400" />,
               title: '1. Sign In',
-              text: 'Create an account or sign in to get started. All you need is an email address.',
+              text: 'Create an account or sign in with just your email to get started.',
             },
             {
-              icon: <UploadCloud className="w-10 h-10 text-green-400" />,
+              icon: <UploadCloud className="w-10 h-10 text-teal-400" />,
               title: '2. Upload Resume',
-              text: 'Upload a PDF version of your resume — we’ll take care of the rest.',
+              text: 'Upload your PDF resume — we’ll take care of the rest.',
             },
             {
-              icon: <GaugeCircle className="w-10 h-10 text-green-400" />,
+              icon: <GaugeCircle className="w-10 h-10 text-teal-400" />,
               title: '3. Get Your Analysis',
-              text: 'Get instant feedback based on an all-inclusive AI-powered resume analysis.',
+              text: 'Receive instant AI-powered feedback on your resume.',
             },
             {
-              icon: <FileText className="w-10 h-10 text-green-400" />,
+              icon: <FileText className="w-10 h-10 text-teal-400" />,
               title: '4. Explore Results',
-              text: 'Discover career tips, job suggestions, and a personalized resume chatbot tailored just for you.',
+              text: 'Discover tips, job suggestions, and use our AI chatbot for guidance.',
             },
           ].map((step, i) => (
             <div
               key={i}
-              className="flex flex-col items-center text-center bg-black hover:bg-zinc-900 rounded-2xl p-6 shadow-md hover:shadow-lg hover:scale-[1.02] transition-all duration-200 space-y-4"
+              className="flex flex-col items-center text-center bg-[#0f1720] rounded-2xl p-6 2xl:p-8 shadow-md border border-white/5 hover:shadow-lg hover:scale-[1.02] transition-all duration-200 space-y-4"
             >
               {step.icon}
               <h3 className="text-lg 2xl:text-xl font-semibold">{step.title}</h3>
-              <p className="text-sm 2xl:text-base text-zinc-400">{step.text}</p>
+              <p className="text-sm 2xl:text-base text-gray-400">{step.text}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Sign Up CTA */}
-      <section className="text-center animate-fadeIn">
-        <Link href="/signup">
-          <button className="inline-flex items-center gap-2 text-lg 2xl:text-xl bg-transparent text-emerald-400 font-semibold py-3 px-8 2xl:py-4 2xl:px-10 rounded-full hover:bg-gradient-to-r hover:from-green-500 hover:via-emerald-600 hover:to-lime-500 hover:text-white hover:scale-105 transition-all duration-300 shadow-md">
-            <Sparkles className="w-5 h-5" />
-            Sign Up Now!
-          </button>
-        </Link>
-      </section>
-
       {/* Footer Note */}
-      <footer className="text-center text-sm 2xl:text-base text-zinc-500 pt-10 animate-fadeIn">
+      <footer className="text-center text-sm 2xl:text-base text-gray-500 pt-10">
         Created by{' '}
         <a
           href="https://www.elijahcampbellihimportfolio.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="font-bold text-zinc-300 hover:text-emerald-400 underline"
+          className="font-bold text-gray-300 hover:text-teal-400 underline"
         >
           Elijah Campbell-Ihim
         </a>{' '}

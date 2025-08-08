@@ -100,82 +100,95 @@ export default function AccountPage() {
 
   // Lock screen (not signed in)
   if (!session) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-green-300 animate-fadeInUp">
-        <div className="text-center bg-zinc-900 p-10 rounded-2xl shadow-xl w-full max-w-md space-y-12">
-          <div className="flex justify-center">
-            <Lock className="w-16 h-16 text-green-400 animate-pulse" />
-          </div>
-          <h2 className="text-3xl font-bold">You&apos;re not signed in</h2>
-          <p className="text-zinc-300 text-md">You must be signed in to access this feature.</p>
-          <div className="flex justify-center">
-            <Link href="/signin">
-              <button className="flex items-center gap-2 text-lg bg-emerald-600 text-white font-semibold px-6 py-2 rounded-full hover:bg-gradient-to-r hover:from-green-600 hover:via-emerald-600 hover:to-teal-600 hover:scale-105 transition-all duration-300 shadow-md hover:shadow-green-400/40">
-                <LogIn size={18} />
-                Sign In
-              </button>
-            </Link>
-          </div>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#0b0f14] text-white px-6">
+      <div className="bg-[#0f1720] p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-8 animate-fadeInUp">
+        <div className="flex justify-center">
+          <Lock className="w-14 h-14 text-teal-400 animate-pulse" />
         </div>
+
+        <h2 className="text-3xl font-bold">You&apos;re not signed in</h2>
+        <p className="text-sm text-gray-400 leading-relaxed">
+          Sign in to unlock your personalized dashboard and dive into your resume insights—tailored just for you.
+        </p>
+
+        <Link href="/signin">
+          <button className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold px-6 py-3 rounded-full shadow-lg hover:scale-105 transition-transform">
+            <LogIn size={18} />
+            Sign In
+          </button>
+        </Link>
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   // API Usage bar logic
   const usagePercent = Math.min((usage / DAILY_LIMIT) * 100, 100);
-  let usageColor = 'bg-green-500';
+  let usageColor = 'bg-teal-500';
   if (usagePercent > 90) usageColor = 'bg-red-500';
   else if (usagePercent > 75) usageColor = 'bg-yellow-500';
 
 
   return (
-  <div className="min-h-screen bg-black text-green-300 px-4 sm:px-6 py-16 flex justify-center items-start">
-    <div className="bg-zinc-900 p-6 sm:p-8 rounded-2xl shadow-xl w-full max-w-2xl text-center space-y-8 animate-fadeIn">
-      <div className="flex justify-center">
-        <UserCircle className="text-green-400 w-16 h-16 animate-bounce" />
+  <div className="min-h-screen 2xl:min-h-full bg-[#0b0f14] text-white px-4 sm:px-6 2xl:px-20 py-20 flex justify-center">
+    <div className="w-full max-w-3xl 2xl:max-w-4xl bg-[#0f1720] rounded-3xl shadow-2xl p-10 2xl:p-12 space-y-12 animate-fadeIn">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex justify-center">
+          <UserCircle className="w-16 h-16 2xl:w-20 2xl:h-20 text-teal-400 animate-bounce" />
+        </div>
+        <h1 className="text-3xl 2xl:text-4xl font-bold">
+          Welcome, {session.user?.email?.split('@')[0] || 'User'}!
+        </h1>
+        {joinedAt && (
+          <p className="text-sm 2xl:text-base text-gray-400">
+            Joined on{" "}
+            {new Date(joinedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
+        )}
       </div>
 
-      <h1 className="text-3xl font-bold">
-        Welcome, {session.user?.email?.split('@')[0] || 'User'}!
-      </h1>
-
-      {joinedAt && (
-        <p className="text-green-400 animate-fadeInUp">
-          Joined on{' '}
-          {new Date(joinedAt).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
-        </p>
-      )}
-
-      {/* API Usage Bar */}
-      <div className="space-y-2 text-left">
-        <div className="flex items-center gap-2 text-sm font-semibold">
-          <GaugeCircle className="w-4 h-4" />
+      {/* API Usage */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 text-sm 2xl:text-base font-medium text-gray-300">
+          <GaugeCircle className="w-5 h-5 2xl:w-6 2xl:h-6 text-teal-400" />
           Daily Usage
         </div>
-        <div className="relative h-4 bg-zinc-800 rounded-full overflow-hidden">
+        <div className="relative w-full h-5 2xl:h-6 bg-zinc-800 rounded-full overflow-hidden">
           <div
-            className={`absolute top-0 left-0 h-full ${usageColor} transition-all duration-300 ease-in-out`}
+            className={`absolute top-0 left-0 h-full transition-all duration-500 ease-in-out ${
+              usagePercent > 90
+                ? "bg-red-500"
+                : usagePercent > 75
+                ? "bg-yellow-400"
+                : "bg-teal-500"
+            }`}
             style={{ width: `${usagePercent}%` }}
           />
         </div>
-        <p className="text-xs text-green-400">{usage} / {DAILY_LIMIT} messages today</p>
+        <p className="text-xs 2xl:text-sm text-gray-400">
+          {usage} / {DAILY_LIMIT} messages today
+        </p>
       </div>
 
-      {/* Action Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mt-8 w-full">
-        <Link href="/upload" className="w-full">
-          <button className="w-full bg-zinc-800 hover:bg-green-600 border border-green-500 px-4 py-3 rounded-xl hover:text-white font-semibold flex items-center justify-center gap-2 shadow-md text-sm">
+      {/* Actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 2xl:gap-6">
+        <Link href="/upload">
+          <button className="w-full bg-zinc-800 hover:bg-teal-500 text-white border border-teal-400 px-4 py-3 2xl:px-5 2xl:py-4 rounded-xl text-sm 2xl:text-base font-semibold flex items-center justify-center gap-2 transition-all hover:shadow-lg hover:scale-105">
             <UploadCloud size={16} />
             New Analysis
           </button>
         </Link>
+
         {resumeUrl ? (
-          <Link href="/analysis" className="w-full">
-            <button className="w-full bg-gradient-to-r from-green-500 via-emerald-600 to-teal-500 hover:bg-gradient-to-r hover:from-green-600 hover:via-emerald-700 hover:to-teal-600 border border-zinc-800 px-4 py-3 rounded-xl text-white transition flex items-center justify-center gap-2 shadow-lg text-sm font-semibold">
+          <Link href="/analysis">
+            <button className="w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black px-4 py-3 2xl:px-5 2xl:py-4 rounded-xl text-sm 2xl:text-base font-semibold flex items-center justify-center gap-2 transition-all hover:scale-105 shadow-lg">
               <Search size={16} />
               View Analysis
             </button>
@@ -183,50 +196,48 @@ export default function AccountPage() {
         ) : (
           <button
             disabled
-            className="w-full bg-zinc-700 text-zinc-400 cursor-not-allowed px-4 py-3 rounded-xl flex items-center justify-center gap-2 shadow-md text-sm font-medium"
+            className="w-full bg-zinc-700 text-gray-400 cursor-not-allowed px-4 py-3 2xl:px-5 2xl:py-4 rounded-xl flex items-center justify-center gap-2 text-sm 2xl:text-base font-medium"
           >
             <Search size={16} />
             View Analysis
           </button>
         )}
 
-        
-
         <button
           onClick={() => setShowPreview(!showPreview)}
           disabled={!resumeUrl}
-          className={`w-full px-4 py-3 rounded-xl flex items-center justify-center gap-2 shadow-md text-sm font-semibold transition ${
+          className={`w-full px-4 py-3 2xl:px-5 2xl:py-4 rounded-xl text-sm 2xl:text-base font-semibold flex items-center justify-center gap-2 transition-all ${
             resumeUrl
-              ? 'bg-zinc-800 border border-green-500 hover:bg-green-600 hover:text-white'
-              : 'bg-zinc-700 text-zinc-400 cursor-not-allowed'
+              ? "bg-zinc-800 text-white border border-teal-400 hover:bg-teal-500 hover:text-black hover:shadow-lg hover:scale-105"
+              : "bg-zinc-700 text-gray-400 cursor-not-allowed"
           }`}
         >
           {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
-          {showPreview ? 'Hide Preview' : 'Show Resume'}
+          {showPreview ? "Hide Resume" : "Show Resume"}
         </button>
       </div>
 
       {/* Resume Preview */}
       {showPreview && resumeUrl && (
-        <div className="mt-10 w-full">
-          <h2 className="text-lg font-bold mb-2 flex items-center justify-center gap-2">
+        <div className="space-y-4">
+          <h2 className="text-lg 2xl:text-xl font-semibold flex items-center justify-center gap-2">
             <FileText size={18} />
             Resume Preview
           </h2>
-          <div className="bg-zinc-800 rounded-lg overflow-hidden border border-green-600 shadow-md">
+          <div className="bg-zinc-900 border border-teal-600 rounded-xl overflow-hidden shadow-xl">
             <iframe
               src={`${resumeUrl}#view=FitH`}
+              className="w-full h-[500px] 2xl:h-[600px] rounded"
               title="Resume Preview"
-              className="w-full h-[500px] rounded"
             />
           </div>
         </div>
       )}
 
-      {/* Footer Nav */}
-      <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center mt-10 w-full">
-        <Link href="/" className="w-full sm:w-auto">
-          <button className="w-full sm:w-auto bg-zinc-800 border border-green-500 px-6 py-2 rounded-full hover:bg-green-600 hover:text-white transition flex items-center justify-center gap-2 text-sm font-medium">
+      {/* Footer Buttons */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <Link href="/">
+          <button className="w-full sm:w-auto bg-zinc-800 border border-teal-500 text-gray-300 hover:text-white px-6 2xl:px-8 py-2 2xl:py-3 rounded-full hover:bg-white/10 transition text-sm 2xl:text-base flex items-center justify-center gap-2">
             <Undo2 size={16} />
             Home
           </button>
@@ -234,7 +245,7 @@ export default function AccountPage() {
 
         <button
           onClick={() => signOut()}
-          className="w-full sm:w-auto bg-zinc-800 border border-red-500 px-6 py-2 rounded-full hover:bg-red-600 hover:text-white transition flex items-center justify-center gap-2 text-sm font-medium"
+          className="w-full sm:w-auto bg-zinc-800 border border-red-500 text-red-400 px-6 2xl:px-8 py-2 2xl:py-3 rounded-full hover:bg-red-600 hover:text-white transition text-sm 2xl:text-base flex items-center justify-center gap-2"
         >
           <LogOut size={16} />
           Sign Out

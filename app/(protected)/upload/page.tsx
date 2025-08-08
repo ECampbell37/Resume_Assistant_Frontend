@@ -24,7 +24,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -33,13 +33,62 @@ import { UploadCloud, FileText, AlertTriangle, Eye, EyeOff } from 'lucide-react'
 
 // Loading screen after resume upload
 function LoadingScreen() {
+  const messages = [
+    "Parsing your resume through an ATS lens...",
+    "Checking formatting and structure for readability...",
+    "Identifying standout skills and achievements...",
+    "Scanning for tone, clarity, and consistency...",
+    "Highlighting your professional strengths...",
+    "Spotting areas for improvement...",
+    "Checking typos and grammar...",
+    "Generating personalized career advice...",
+    "Matching your resume to modern job market trends...",
+    "Finalizing...",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex >= messages.length - 1) return; // stop at last message
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => prev + 1);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [currentIndex]);
+
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black text-green-300 animate-fadeIn">
-      <FileText className="w-12 h-12 text-green-400 animate-bounce mb-6" />
-      <h2 className="text-xl font-semibold mb-4">Analyzing your resume...</h2>
-      <div className="w-64 h-2 bg-zinc-700 rounded-full overflow-hidden">
-        <div className="bg-green-500 h-full animate-progress45" style={{ animationFillMode: 'forwards' }} />
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0b0f14] text-white animate-fadeIn px-4">
+      {/* Bouncing Resume Icon */}
+      <div className="mb-6">
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg animate-bounce">
+          <FileText className="w-7 h-7 text-black" />
+        </div>
       </div>
+
+      {/* Header */}
+      <h2 className="text-2xl font-bold text-emerald-400 mb-2">
+        Analyzing Your Resume
+      </h2>
+
+      {/* Subtext */}
+      <p className="text-sm text-gray-400 text-center mb-6">
+        This may take a few moments. Hang tight!
+      </p>
+
+      {/* Progress Bar */}
+      <div className="w-72 h-2 rounded-full bg-white/10 overflow-hidden shadow-inner">
+        <div
+          className="h-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 animate-progress45"
+          style={{ animationFillMode: 'forwards' }}
+        />
+      </div>
+
+      {/* Final Message Display */}
+      <p className="text-sm text-gray-500 mt-4 text-center h-5 transition-opacity duration-500 ease-in-out">
+        {messages[currentIndex]}
+      </p>
     </div>
   );
 }
@@ -197,84 +246,102 @@ export default function UploadPage() {
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-black text-green-300 px-6 py-10">
-      <div className="bg-zinc-900 p-8 rounded-2xl shadow-lg w-full max-w-md text-center animate-fadeInUp">
-        <UploadCloud className="w-10 h-10 text-green-400 mx-auto mb-4 animate-pulse" />
-        <h1 className="text-2xl font-bold mb-2">Upload Your Resume</h1>
-        <p className="text-green-500 mb-6">PDF format only. Max file size of 3 pages.</p>
+  <div className="min-h-screen flex flex-col items-center justify-center bg-[#0b0f14] text-white px-6 py-12">
+    {/* Page Header */}
+    <section className="w-full max-w-4xl 2xl:max-w-5xl text-center mb-10 animate-fadeInUp">
+      <h1 className="text-3xl sm:text-4xl 2xl:text-5xl font-extrabold text-emerald-400 leading-tight mb-4">
+        Ready to Level Up Your Resume?
+      </h1>
+      <p className="text-base sm:text-lg 2xl:text-xl text-gray-300 max-w-xl mx-auto">
+        Upload your PDF and get instant, AI-powered insights to improve your resume and stand out from the crowd.
+      </p>
+    </section>
 
-        <label
-          htmlFor="resume-upload"
-          className="cursor-pointer flex flex-col items-center border-2 border-dashed border-green-500 py-6 px-4 rounded-xl hover:border-green-400 transition mb-4"
-        >
-          {file ? (
-            <div className="flex items-center gap-2 text-green-200 truncate">
-              <FileText size={18} className="shrink-0" />
-              <span className="text-green-200 break-words whitespace-normal">
-                {file.name}
-              </span>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center text-green-400">
-              <UploadCloud size={24} />
-              <span className="mt-2 text-sm">Click to upload your PDF resume</span>
-            </div>
-          )}
-        </label>
-
-        <input
-          id="resume-upload"
-          type="file"
-          accept=".pdf"
-          className="hidden"
-          onChange={handleChange}
-        />
-
-        {error && (
-          <div className="mt-4 w-full max-w-md bg-red-900 border border-red-600 text-red-200 p-4 rounded-lg shadow-lg animate-fadeIn space-y-2">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="text-red-400" size={20} />
-              <h2 className="font-semibold text-red-300 text-base">Error Uploading Resume</h2>
-            </div>
-            <p className="text-sm leading-relaxed">{error}</p>
-          </div>
-        )}
-
-        {file && (
-          <button
-            onClick={handleAnalyze}
-            disabled={loading}
-            className="mt-4 w-full bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white text-lg font-semibold py-3 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Analyze Resume
-          </button>
-        )}
+    <div className="w-full max-w-md 2xl:max-w-lg bg-[#0f1720] rounded-2xl shadow-2xl p-8 space-y-6 2xl:space-y-8 animate-fadeInUp">
+      
+      {/* Header */}
+      <div className="text-center space-y-2">
+        <UploadCloud className="w-10 h-10 text-teal-400 mx-auto animate-pulse" />
+        <h1 className="text-2xl 2xl:text-3xl font-bold">Upload Your Resume</h1>
+        <p className="text-sm 2xl:text-lg text-gray-400">PDF only · Max 3 pages</p>
       </div>
 
-      {file && previewUrl && (
-        <div className="mt-6 animate-fadeInUp">
-          <button
-            onClick={() => setShowPreview(!showPreview)}
-            className="inline-flex items-center gap-2 px-6 py-2 bg-transparent text-zinc-300 rounded-full font-semibold hover:bg-gradient-to-r hover:from-zinc-500 hover:via-zinc-600 hover:to-zinc-500 hover:text-white hover:scale-105 transition-all duration-300"
-          >
-            {showPreview ? <EyeOff size={18} /> : <Eye size={18} />}
-            {showPreview ? 'Hide Resume Preview' : 'Show Resume Preview'}
-          </button>
+      {/* Drop Zone */}
+      <label
+        htmlFor="resume-upload"
+        className="cursor-pointer flex flex-col items-center justify-center gap-2 border-2 border-dashed border-teal-500 py-6 px-4 rounded-xl hover:border-emerald-400 hover:bg-white/5 transition text-center"
+      >
+        {file ? (
+          <div className="flex items-center gap-2 text-teal-300 truncate">
+            <FileText size={18} />
+            <span className="break-words">{file.name}</span>
+          </div>
+        ) : (
+          <>
+            <UploadCloud size={24} className="text-teal-400" />
+            <span className="text-sm 2xl:text-lg text-gray-300">Click to upload your PDF resume</span>
+          </>
+        )}
+      </label>
+
+      <input
+        id="resume-upload"
+        type="file"
+        accept=".pdf"
+        className="hidden"
+        onChange={handleChange}
+      />
+
+      {/* Error Box */}
+      {error && (
+        <div className="bg-red-900/60 border border-red-600 text-red-200 p-4 rounded-lg shadow-md animate-fadeIn">
+          <div className="flex items-center gap-2 mb-1 font-semibold">
+            <AlertTriangle size={20} className="text-red-400" />
+            Error Uploading Resume
+          </div>
+          <p className="text-sm">{error}</p>
         </div>
       )}
 
-      {showPreview && previewUrl && (
-        <div className="mt-8 bg-zinc-800 p-4 rounded-xl shadow max-w-4xl w-full animate-fadeIn">
-          <h2 className="text-lg font-semibold mb-2 text-center">Your Resume</h2>
-          <iframe
-            src={`${previewUrl}#view=FitH`}
-            className="w-full h-[1000px] rounded-lg border border-green-700"
-            title="Resume Preview"
-          />
-        </div>
+      {/* Analyze Button */}
+      {file && (
+        <button
+          onClick={handleAnalyze}
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-teal-400 via-cyan-400 to-emerald-500 text-black font-semibold py-3 rounded-full hover:scale-105 transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Analyze Resume
+        </button>
       )}
-
-      {loading && <LoadingScreen />}
     </div>
-  );
+
+    {/* Show Preview Toggle */}
+    {file && previewUrl && (
+      <div className="mt-6">
+        <button
+          onClick={() => setShowPreview(!showPreview)}
+          className="inline-flex items-center gap-2 text-sm px-5 py-2 border border-white/10 rounded-full text-gray-300 hover:bg-white/5 transition-all"
+        >
+          {showPreview ? <EyeOff size={18} /> : <Eye size={18} />}
+          {showPreview ? 'Hide Resume Preview' : 'Show Resume Preview'}
+        </button>
+      </div>
+    )}
+
+    {/* Resume Preview */}
+    {showPreview && previewUrl && (
+      <div className="mt-10 w-full max-w-4xl bg-[#0f1720] p-4 rounded-xl shadow-xl border border-white/10 animate-fadeIn">
+        <h2 className="text-lg font-semibold text-center mb-2">Resume Preview</h2>
+        <iframe
+          src={`${previewUrl}#view=FitH`}
+          className="w-full h-[600px] rounded-lg border border-teal-600"
+          title="Resume Preview"
+        />
+      </div>
+    )}
+
+    {/* Loading Screen */}
+    {loading && <LoadingScreen />}
+  </div>
+);
 }

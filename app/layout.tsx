@@ -1,4 +1,5 @@
 // app/layout.tsx
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-green-300`}>
+    <html lang="en" className="scroll-smooth">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0f14] text-white font-sans transition-colors duration-300`}
+      >
         <Providers>
           <NavBar />
-          <main className="pt-14 min-h-screen">{children}</main>
+          <main className="pt-12 min-h-screen">{children}</main>
         </Providers>
       </body>
     </html>

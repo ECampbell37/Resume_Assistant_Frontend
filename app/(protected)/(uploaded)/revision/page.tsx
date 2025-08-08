@@ -162,24 +162,25 @@ export default function RevisionPage() {
 
 
   return (
-  <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
+  <div className="min-h-screen flex flex-col items-center bg-[#0b0f14] text-teal-300 px-4 py-8">
     {/* Header */}
-    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-4">
-      <h1 className="text-3xl md:text-4xl font-bold text-green-300">🚀 Resume Revision</h1>
-      <p className="text-green-400 text-base md:text-lg font-medium leading-relaxed">
+    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-3">
+      <h1 className="text-4xl font-extrabold tracking-tight text-white">🛠 Resume Revision</h1>
+      <p className="text-emerald-300 text-base md:text-lg font-medium leading-relaxed">
         Want some help? Get a polished, concise, and ATS-friendly version of your resume instantly!
       </p>
     </div>
 
+    {/* Content Grid */}
     <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
-      {/* Rewritten Resume Section */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 md:p-6 rounded-2xl shadow-xl h-[500px] relative">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Resume Assistant Rewrite</h2>
+      {/* Rewritten Resume */}
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px] relative">
+        <h2 className="text-2xl font-bold text-center mb-4 text-teal-300">Resume Assistant Rewrite</h2>
 
         {loading ? (
-          <div className="flex-1 flex flex-col items-center justify-center text-green-300 gap-4 animate-fadeIn">
-            <FileText className="w-10 h-10 text-green-400 animate-bounce" />
-            <p className="text-lg font-medium">Rewriting your resume...</p>
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 animate-fadeIn">
+            <FileText className="w-10 h-10 text-emerald-300 animate-bounce" />
+            <p className="text-lg font-medium text-emerald-300">Rewriting your resume...</p>
           </div>
         ) : rewritten ? (
           <div
@@ -190,20 +191,20 @@ export default function RevisionPage() {
             {/* Copy Button */}
             <button
               onClick={copyToClipboard}
-              className={`mr-2 absolute top-4 right-4 z-10 px-3 py-1 rounded-md text-sm font-medium flex items-center gap-1 border border-green-500 transition-opacity duration-300 bg-zinc-700 hover:bg-zinc-600 ${
+              className={`mr-2 absolute top-4 right-4 z-10 px-3 py-1 rounded-md text-sm font-medium flex items-center gap-2 border border-teal-500 transition-opacity duration-300 bg-zinc-700 hover:bg-zinc-600 ${
                 showCopy ? 'opacity-100' : 'opacity-0'
               }`}
             >
-              <FileText className="w-4 h-4 text-green-300" />
-              <span className={copied ? 'text-green-400 font-semibold' : 'text-green-300'}>
+              <FileText className="w-4 h-4 text-teal-300" />
+              <span className={copied ? 'font-semibold' : 'font-medium'}>
                 {copied ? 'Copied!' : 'Copy'}
               </span>
             </button>
 
-            {/* Resume Markdown */}
+            {/* Rewritten Markdown */}
             <div
               ref={contentRef}
-              className="flex-1 overflow-y-auto p-4 text-sm md:text-base text-green-200"
+              className="flex-1 overflow-y-auto p-4 prose prose-invert max-w-none text-sm md:text-base"
             >
               <MarkdownRenderer content={rewritten} />
             </div>
@@ -212,7 +213,7 @@ export default function RevisionPage() {
             <div className="p-4 border-t border-zinc-700">
               <button
                 onClick={handleRewrite}
-                className="w-full py-2 px-4 bg-green-700 hover:bg-green-600 text-white font-semibold rounded-lg flex items-center justify-center gap-2"
+                className="w-full py-2 px-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-teal-600 hover:to-emerald-500 text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-md"
               >
                 <RefreshCw className="text-white" />
                 <span>Rewrite Again</span>
@@ -221,12 +222,12 @@ export default function RevisionPage() {
           </div>
         ) : (
           <div className="flex-1 flex flex-col">
-            <p className="text-center text-green-400 mb-4">
+            <p className="text-center text-emerald-300 mb-4">
               Use the button below to generate your AI-enhanced resume.
             </p>
             <button
               onClick={handleRewrite}
-              className="mt-auto w-full py-2 px-4 bg-green-700 hover:bg-green-600 hover:animate-pulse text-white font-semibold rounded-lg flex items-center justify-center gap-2"
+              className="mt-auto w-full py-3 px-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-teal-600 hover:to-emerald-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:animate-pulse shadow-md"
             >
               <Wand2 className="text-white" />
               <span>Rewrite My Resume</span>
@@ -235,30 +236,32 @@ export default function RevisionPage() {
         )}
       </div>
 
-      {/* Resume Preview Section */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 rounded-2xl shadow-xl h-[500px]">
-        <h3 className="text-lg font-semibold mb-4 text-center">Original Resume Preview</h3>
-        <div className="flex-1 overflow-hidden rounded-lg border border-green-700 bg-zinc-800">
+      {/* Resume Preview */}
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px]">
+        <h3 className="text-lg 2xl:text-xl font-semibold mb-4 text-center text-teal-300">Original Resume Preview</h3>
+        <div className="flex-1 overflow-hidden rounded-xl border border-teal-600 bg-zinc-800">
           {previewUrl ? (
             <iframe
               src={`${previewUrl}#view=FitH`}
-              className="w-full h-full rounded-lg"
+              className="w-full h-full rounded-xl"
               title="Resume Preview"
               style={{ border: 'none' }}
             />
           ) : (
-            <p className="text-center text-green-400 py-20">Loading resume...</p>
+            <p className="text-center text-emerald-300 py-20">Loading resume...</p>
           )}
         </div>
       </div>
     </div>
 
     {/* Tools Navigation */}
-    <div className="mt-10 w-full">
+    <div className="mt-12 w-full">
       <ToolsNav />
     </div>
   </div>
 );
+
+
 
 
 }

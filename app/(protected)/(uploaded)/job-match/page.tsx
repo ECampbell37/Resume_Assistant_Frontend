@@ -152,26 +152,27 @@ ${result.recommendation}
 
 
   return (
-  <div className="min-h-screen flex flex-col items-center bg-black text-green-300 px-4 py-2">
-    {/* Welcome Header */}
-    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-4">
-      <h1 className="text-3xl md:text-4xl font-bold text-green-300">
+  <div className="min-h-screen flex flex-col items-center bg-[#0b0f14] text-teal-300 px-4 py-8">
+    {/* Header */}
+    <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-3">
+      <h1 className="text-4xl font-extrabold tracking-tight text-white">
         Job Match 🔍
       </h1>
-      <p className="text-green-400 text-base md:text-lg font-medium leading-relaxed">
-        Paste a job description below to see how well your resume fits. You&apos;ll get a match score, skill breakdown, and personalized recommendations.
+      <p className="text-emerald-300 text-base md:text-lg font-medium leading-relaxed">
+        Paste a job description below to see how well your resume fits. You’ll get a match score, skill breakdown, and personalized recommendations.
       </p>
     </div>
 
+    {/* Main Panel */}
     <div className="flex flex-col lg:flex-row gap-6 w-full max-w-7xl animate-fadeInUp">
-      {/* Job Match Section */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 md:p-6 rounded-2xl shadow-xl h-[500px] relative">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Job Match</h2>
+      {/* Job Match Tool */}
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px]">
+        <h2 className="text-2xl font-bold text-center mb-4 text-teal-300">Job Match</h2>
 
         {loading ? (
-          <div className="flex-1 flex flex-col items-center justify-center text-green-300 gap-4 animate-fadeIn">
-            <FileText className="w-10 h-10 text-green-400 animate-bounce" />
-            <p className="text-lg font-medium">Analyzing your resume...</p>
+          <div className="flex-1 flex flex-col items-center justify-center gap-4 animate-fadeIn">
+            <FileText className="w-10 h-10 text-emerald-300 animate-bounce" />
+            <p className="text-lg font-medium text-emerald-300">Analyzing your resume...</p>
           </div>
         ) : !matchResult ? (
           <>
@@ -179,23 +180,23 @@ ${result.recommendation}
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
               placeholder="Paste a job description here..."
-              className="w-full bg-zinc-800 text-green-200 p-3 rounded-lg h-56 mb-3 border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="w-full bg-zinc-800 text-emerald-200 p-4 rounded-xl h-2/3 mb-4 border border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-base leading-relaxed"
             />
             <button
               onClick={handleJobMatch}
               disabled={!jobDescription.trim()}
-              className={`mt-auto w-full py-2 rounded-lg font-semibold transition ${
+              className={`mt-auto w-full py-3 rounded-xl font-semibold text-sm shadow-md transition ${
                 !jobDescription.trim()
-                  ? 'bg-zinc-600 text-green-400 cursor-not-allowed'
-                  : 'bg-green-600 hover:bg-green-500 text-black'
+                  ? 'bg-zinc-700 text-teal-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-teal-500 to-emerald-500 text-black hover:brightness-110'
               }`}
             >
               Match This Job
             </button>
           </>
         ) : (
-          <div className="flex flex-col bg-zinc-800 rounded-xl text-green-200 text-sm md:text-base h-full overflow-hidden">
-            <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex flex-col bg-zinc-800 rounded-xl text-emerald-200 h-full overflow-hidden shadow-md">
+            <div className="flex-1 overflow-y-auto p-4 prose prose-invert max-w-none text-sm md:text-base">
               <MarkdownRenderer content={matchResult} />
             </div>
             <div className="p-4 border-t border-zinc-700">
@@ -204,7 +205,7 @@ ${result.recommendation}
                   setMatchResult('');
                   setJobDescription('');
                 }}
-                className="w-full py-2 px-4 bg-green-700 hover:bg-green-600 text-white font-semibold rounded-lg"
+                className="w-full py-2 px-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-teal-600 hover:to-emerald-500 text-white font-semibold rounded-lg shadow-sm transition"
               >
                 Match Another Job
               </button>
@@ -214,28 +215,29 @@ ${result.recommendation}
       </div>
 
       {/* Resume Preview */}
-      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-4 rounded-2xl shadow-xl h-[500px]">
-        <h3 className="text-lg font-semibold mb-4 text-center">Resume Preview</h3>
-        <div className="flex-1 overflow-hidden rounded-lg border border-green-700 bg-zinc-800">
+      <div className="w-full lg:w-1/2 flex flex-col bg-zinc-900 p-6 rounded-3xl shadow-xl h-[540px]">
+        <h3 className="text-lg 2xl:text-xl font-semibold mb-4 text-center text-teal-300">Resume Preview</h3>
+        <div className="flex-1 overflow-hidden rounded-xl border border-teal-600 bg-zinc-800">
           {previewUrl ? (
             <iframe
               src={`${previewUrl}#view=FitH`}
-              className="w-full h-full rounded-lg"
+              className="w-full h-full rounded-xl"
               title="Resume Preview"
               style={{ border: 'none' }}
             />
           ) : (
-            <p className="text-center text-green-400 py-20">Loading resume...</p>
+            <p className="text-center text-emerald-300 py-20">Loading resume...</p>
           )}
         </div>
       </div>
     </div>
 
-    {/* Tools Navigation */}
-    <div className="mt-10 w-full">
+    {/* ToolsNav */}
+    <div className="mt-12 w-full">
       <ToolsNav />
     </div>
   </div>
 );
+
 
 }
