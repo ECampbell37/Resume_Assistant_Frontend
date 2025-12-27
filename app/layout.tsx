@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { Providers } from './providers';
+import WakeBackend from "./wakeBackend";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0b0f14] text-white font-sans transition-colors duration-300`}
       >
         <Providers>
+          <WakeBackend />
           <NavBar />
           <main className="pt-12 min-h-screen">{children}</main>
         </Providers>
