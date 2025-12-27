@@ -36,8 +36,8 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 </div>
 
 <div align="center">
-  <img src="./assets/account.png" alt="Account Page" width="800"/>
-  <p><em>Account</em></p>
+  <img src="./assets/signup.png" alt="Account Page" width="800"/>
+  <p><em>Create an Account</em></p>
 </div>
 
 ---
@@ -45,13 +45,13 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 ### 📝 Upload
 
 <div align="center">
-  <img src="./assets/upload.png" alt="Upload Screen" width="800"/>
-  <p><em>Upload Interface</em></p>
+  <img src="./assets/account.png" alt="Upload Screen" width="800"/>
+  <p><em>Acount</em></p>
 </div>
 
 <div align="center">
-  <img src="./assets/upload2.png" alt="Preview Screen" width="800"/>
-  <p><em>Upload Preview</em></p>
+  <img src="./assets/upload.png" alt="Preview Screen" width="800"/>
+  <p><em>Upload Interface</em></p>
 </div>
 
 ---
@@ -69,6 +69,8 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 </div>
 
 ---
+
+<!--
 
 ### 👩‍💻 Job Match
 
@@ -110,6 +112,7 @@ Built with **Next.js**, styled with **Tailwind CSS**, and integrated with **Supa
 
 ---
 
+-->
 
 ## 🛠 Stack
 
