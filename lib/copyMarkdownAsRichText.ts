@@ -1,6 +1,6 @@
 // /lib/copyMarkdownAsRichText.ts
 
-import React from 'react';
+import React, { ComponentPropsWithoutRef } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -17,19 +17,19 @@ function markdownToHtml(markdown: string): string {
       {
         remarkPlugins: [remarkGfm],
         components: {
-          h1: (props: any) =>
+          h1: (props: ComponentPropsWithoutRef<'h1'>) =>
             React.createElement('h1', { style: { fontSize: '22px', fontWeight: 700, margin: '0 0 8px' }, ...props }),
-          h2: (props: any) =>
+          h2: (props: ComponentPropsWithoutRef<'h2'>) =>
             React.createElement('h2', {
               style: { fontSize: '18px', fontWeight: 700, borderBottom: '1px solid #999', paddingBottom: '2px', margin: '16px 0 8px' },
               ...props,
             }),
-          h3: (props: any) =>
+          h3: (props: ComponentPropsWithoutRef<'h3'>) =>
             React.createElement('h3', { style: { fontSize: '16px', fontWeight: 600, margin: '12px 0 6px' }, ...props }),
-          p: (props: any) => React.createElement('p', { style: { margin: '0 0 8px' }, ...props }),
-          strong: (props: any) => React.createElement('strong', { style: { fontWeight: 700 }, ...props }),
-          ul: (props: any) => React.createElement('ul', { style: { margin: '0 0 8px', paddingLeft: '20px' }, ...props }),
-          li: (props: any) => React.createElement('li', { style: { margin: '0 0 4px' }, ...props }),
+          p: (props: ComponentPropsWithoutRef<'p'>) => React.createElement('p', { style: { margin: '0 0 8px' }, ...props }),
+          strong: (props: ComponentPropsWithoutRef<'strong'>) => React.createElement('strong', { style: { fontWeight: 700 }, ...props }),
+          ul: (props: ComponentPropsWithoutRef<'ul'>) => React.createElement('ul', { style: { margin: '0 0 8px', paddingLeft: '20px' }, ...props }),
+          li: (props: ComponentPropsWithoutRef<'li'>) => React.createElement('li', { style: { margin: '0 0 4px' }, ...props }),
         },
       },
       markdown
