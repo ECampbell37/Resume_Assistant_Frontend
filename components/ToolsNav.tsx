@@ -19,9 +19,10 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Brain, Wand2, Briefcase, MessageSquareText } from 'lucide-react';
+import { Brain, Wand2, Briefcase, MessageSquareText, FileEdit} from 'lucide-react';
 
 const tools = [
+  { label: 'Create', href: '/create', icon: <FileEdit size={18} /> },
   { label: 'Analysis', href: '/analysis', icon: <Brain size={18} /> },
   { label: 'Job Match', href: '/job-match', icon: <Briefcase size={18} /> },
   { label: 'Chatbot', href: '/chat', icon: <MessageSquareText size={18} /> },

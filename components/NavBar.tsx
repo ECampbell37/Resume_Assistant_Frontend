@@ -28,6 +28,7 @@ export default function NavBar() {
   const [open, setOpen] = useState(false);
 
   const navItems = [
+    { name: 'Create', href: '/create'},
     { name: 'Upload', href: '/upload' },
     { name: 'Analysis', href: '/analysis' },
     { name: 'Job Match', href: '/job-match' },
