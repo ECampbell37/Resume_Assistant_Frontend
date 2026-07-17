@@ -22,13 +22,24 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { UserCircle, Mail, LockKeyhole, CheckCircle2 } from 'lucide-react';
 
+// useSearchParams() opts the tree it's in out of static prerendering unless
+// it's wrapped in Suspense, so the ?created=true read is isolated in its own
+// component and the page below just renders it inside a <Suspense> boundary.
 export default function SignInPage() {
+  return (
+    <Suspense fallback={null}>
+      <SignInForm />
+    </Suspense>
+  );
+}
+
+function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const justCreated = searchParams.get('created') === 'true';
