@@ -25,6 +25,8 @@ import {
   ClipboardCheck,
   FolderKanban,
   AlertCircle,
+  ScrollText,
+  Info,
 } from 'lucide-react';
 import ToolsNav from '@/components/ToolsNav';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
@@ -524,7 +526,8 @@ export default function CreateResumePage() {
               </div>
 
               <div>
-                <h2 className="text-xl font-bold text-white mb-2">Certifications</h2>
+                <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                  <ScrollText className="w-5 h-5 text-teal-400" /> Certifications</h2>
                 <p className="text-xs text-gray-400 mb-2">Optional</p>
                 <textarea
                   className={`${inputClass} h-16`}
@@ -564,6 +567,21 @@ export default function CreateResumePage() {
                     <textarea className={`${inputClass} h-20`} placeholder="Description" value={p.description} onChange={(e) => updateProject(p.id, 'description', e.target.value)} />
                   </div>
                 ))}
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                  <Info className="w-5 h-5 text-teal-400" /> Additional Information</h2>
+                <p className="text-xs text-gray-400 mb-2">
+                  Optional — mention a job you&apos;re targeting and we&apos;ll tailor the resume toward it, or
+                  add anything else that didn&apos;t fit above (like volunteer work, extracurriculars, leadership experience, etc.).
+                </p>
+                <textarea
+                  className={`${inputClass} h-24`}
+                  placeholder="e.g. I'm applying for Frontend Developer roles. I also coach youth soccer."
+                  value={form.additionalNotes}
+                  onChange={(e) => setForm((f) => ({ ...f, additionalNotes: e.target.value }))}
+                />
               </div>
             </div>
           )}

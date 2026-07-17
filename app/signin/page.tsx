@@ -8,11 +8,12 @@
 
 /**
  * SignInPage.tsx – Authenticates users using email and password via NextAuth credentials provider.
- * 
+ *
  * Features:
  * - Accepts user input for email and password
  * - Uses `signIn()` with redirect disabled for client-side handling
  * - Displays inline error message for invalid credentials
+ * - Shows a welcome banner when arriving fresh from Sign Up
  * - Redirects to the account dashboard upon successful login
  * - Includes a link to the Sign Up page for new users
  */
@@ -23,12 +24,15 @@
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { UserCircle, Mail, LockKeyhole } from 'lucide-react';
+import { UserCircle, Mail, LockKeyhole, CheckCircle2 } from 'lucide-react';
 
 export default function SignInPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const justCreated = searchParams.get('created') === 'true';
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -41,7 +45,7 @@ export default function SignInPage() {
     });
 
     if (result?.error) {
-      setError("Invalid email or password.");
+      setError('Invalid email or password.');
     } else {
       router.push('/account');
     }
@@ -50,6 +54,15 @@ export default function SignInPage() {
   return (
     <main className="min-h-screen bg-[#0b0f14] text-white flex justify-center items-center px-6">
       <div className="w-full max-w-md 2xl:max-w-lg bg-[#0f1720] p-8 rounded-2xl shadow-xl space-y-8 animate-fadeInUp">
+        {justCreated && (
+          <div className="flex items-center gap-3 rounded-lg border border-teal-400/30 bg-teal-400/10 px-4 py-3 animate-fadeInUp">
+            <CheckCircle2 className="w-5 h-5 text-teal-400 shrink-0" />
+            <p className="text-sm 2xl:text-base text-teal-100">
+              Account created — sign in to continue.
+            </p>
+          </div>
+        )}
+
         <div className="flex justify-center">
           <UserCircle className="w-12 2xl:w-16 h-12 2xl:h-16 text-teal-400 animate-pulse" />
         </div>

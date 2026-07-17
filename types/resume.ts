@@ -42,6 +42,7 @@ export interface ResumeFormData {
   skills: string; // optional, free-form — AI infers if blank/sparse
   projects: ProjectEntry[];
   certifications: string; // optional, free-form
+  additionalNotes: string;
 }
 
 export const emptyResumeFormData: ResumeFormData = {
@@ -52,4 +53,5 @@ export const emptyResumeFormData: ResumeFormData = {
   skills: '',
   projects: [],
   certifications: '',
+  additionalNotes: '',
 };
