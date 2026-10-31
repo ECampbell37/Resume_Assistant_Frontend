@@ -165,7 +165,7 @@ export default function RevisionPage() {
   <div className="min-h-screen flex flex-col items-center bg-[#0b0f14] text-teal-300 px-4 py-8">
     {/* Header */}
     <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-3">
-      <h1 className="text-4xl font-extrabold tracking-tight text-white">🛠 Resume Revision</h1>
+      <h1 className="text-4xl font-extrabold tracking-tight text-white">Resume Revision 🛠</h1>
       <p className="text-emerald-300 text-base md:text-lg font-medium leading-relaxed">
         Want some help? Get a polished, concise, and ATS-friendly version of your resume instantly!
       </p>

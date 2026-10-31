@@ -19,7 +19,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Brain, Wand2, Briefcase, MessageSquareText, FileEdit} from 'lucide-react';
+import { Brain, Wand2, Briefcase, MessageSquareText, FileEdit, LocateFixed} from 'lucide-react';
 
 const tools = [
   { label: 'Create', href: '/create', icon: <FileEdit size={18} /> },
@@ -27,6 +27,7 @@ const tools = [
   { label: 'Job Match', href: '/job-match', icon: <Briefcase size={18} /> },
   { label: 'Chatbot', href: '/chat', icon: <MessageSquareText size={18} /> },
   { label: 'Revision', href: '/revision', icon: <Wand2 size={18} /> },
+  { label: 'Tailor', href: '/tailor', icon: <LocateFixed size={18} /> },
 ];
 
 export default function ToolsNav() {

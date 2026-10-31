@@ -34,6 +34,7 @@ export default function NavBar() {
     { name: 'Job Match', href: '/job-match' },
     { name: 'Chat', href: '/chat' },
     { name: 'Revision', href: '/revision' },
+    { name: 'Tailor', href: '/tailor' },
   ];
 
   return (
