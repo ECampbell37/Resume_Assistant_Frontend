@@ -11,10 +11,11 @@
  * 
  * Features:
  * - Loads the user's uploaded resume from Supabase
+ * - Accepts optional context (the kind of revision wanted, extra facts)
  * - Sends the file to the backend for AI-powered rewriting
  * - Displays the rewritten content with Markdown formatting
  * - Allows one-click copy of the rewritten resume (with hover/fade UX)
- * - Supports "Rewrite Again" regeneration
+ * - "Rewrite Again" returns to the input screen so context can be edited
  * - Shows side-by-side original PDF preview
  * - Enforces per-user API usage limits for rewrite requests
  */
@@ -33,6 +34,7 @@ import { checkApiAllowance } from '@/lib/checkApiAllowance';
 
 export default function RevisionPage() {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [context, setContext] = useState('');
   const [rewritten, setRewritten] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -104,6 +106,7 @@ export default function RevisionPage() {
     try {
       const formData = new FormData();
       formData.append('user_id', userId);
+      formData.append('context', context);
 
       const res = await fetch(`${process.env.NEXT_PUBLIC_PYTHON_API}/revision`, {
         method: 'POST',
@@ -165,9 +168,9 @@ export default function RevisionPage() {
   <div className="min-h-screen flex flex-col items-center bg-[#0b0f14] text-teal-300 px-4 py-8">
     {/* Header */}
     <div className="w-full max-w-4xl text-center mb-10 animate-fadeInUp space-y-3">
-      <h1 className="text-4xl font-extrabold tracking-tight text-white">Resume Revision 🛠</h1>
+      <h1 className="text-4xl font-extrabold tracking-tight text-white">🛠 Resume Revision</h1>
       <p className="text-emerald-300 text-base md:text-lg font-medium leading-relaxed">
-        Want some help? Get a polished, concise, and ATS-friendly version of your resume instantly!
+        Want some help? Get a polished, concise, and ATS-friendly version of your resume instantly! Add optional context to guide the kind of revision you want.
       </p>
     </div>
 
@@ -209,10 +212,10 @@ export default function RevisionPage() {
               <MarkdownRenderer content={rewritten} />
             </div>
 
-            {/* Rewrite Button */}
+            {/* Rewrite Again Button (returns to input screen, context is kept) */}
             <div className="p-4 border-t border-zinc-700">
               <button
-                onClick={handleRewrite}
+                onClick={() => setRewritten('')}
                 className="w-full py-2 px-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-teal-600 hover:to-emerald-500 text-white font-semibold rounded-lg flex items-center justify-center gap-2 shadow-md"
               >
                 <RefreshCw className="text-white" />
@@ -225,6 +228,16 @@ export default function RevisionPage() {
             <p className="text-center text-emerald-300 mb-4">
               Use the button below to generate your AI-enhanced resume.
             </p>
+            <label className="text-sm font-medium text-teal-300 mb-1">
+              Context <span className="text-emerald-300/60 font-normal">(optional)</span>
+            </label>
+            <textarea
+              value={context}
+              onChange={(e) => setContext(e.target.value)}
+              maxLength={1000}
+              placeholder="e.g. Make it more concise. Emphasize my leadership experience. I also volunteered as a coach for three years."
+              className="w-full bg-zinc-800 text-emerald-200 p-3 rounded-xl h-32 mb-4 border border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 text-sm leading-relaxed"
+            />
             <button
               onClick={handleRewrite}
               className="mt-auto w-full py-3 px-4 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-teal-600 hover:to-emerald-500 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:animate-pulse shadow-md"
